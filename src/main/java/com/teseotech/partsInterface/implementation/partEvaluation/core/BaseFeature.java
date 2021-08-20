@@ -1,17 +1,17 @@
-package com.teseotech.partsInterface.coreInterface;
+package com.teseotech.partsInterface.implementation.partEvaluation.core;
 
-import com.teseotech.partsInterface.utility.LoggerInterface;
+import com.teseotech.partsInterface.implementation.partEvaluation.core.utility.StaticLogger;
 
 import java.util.Objects;
 
 // A Pair like structure as <key,value>, e.g., <hasLength,0.2>.
 // The datatype is inferred from the given `value`.
-// `F` should be of type: `Integer, Float, Double, Long or String`.
-public class Feature<F> implements LoggerInterface {
+// `F` should be of type: `Integer`, `Float`, `Double`, `Long`, `Boolean` or `String`.
+public class BaseFeature<F> {
     private String key = null;
     private F value = null;
 
-    public Feature(String key, F value){
+    public BaseFeature(String key, F value){
         this.setKey(key);
         this.setValue(value);
     }
@@ -23,7 +23,7 @@ public class Feature<F> implements LoggerInterface {
         this.value = value;
         if(!((value instanceof Integer) | (value instanceof Float) | (value instanceof Double)
                 | (value instanceof Long) | (value instanceof String)))
-            logWarning("The given feature value (i.e., " + value + " is of unknown type." );
+            StaticLogger.logWarning("The given feature value (i.e., " + value + " is of unknown type." );
     }
 
     public String getKey() {
@@ -32,12 +32,15 @@ public class Feature<F> implements LoggerInterface {
     public F getValue() {
         return value;
     }
+    public Class<?> getType(){
+        return this.getValue().getClass();
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Feature<?> feature = (Feature<?>) o;
+        BaseFeature<?> feature = (BaseFeature<?>) o;
         return Objects.equals(key, feature.key) && Objects.equals(value, feature.value);
     }
     @Override

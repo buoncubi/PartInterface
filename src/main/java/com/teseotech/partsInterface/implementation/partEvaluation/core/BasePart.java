@@ -1,21 +1,21 @@
-package com.teseotech.partsInterface.coreInterface;
+package com.teseotech.partsInterface.implementation.partEvaluation.core;
 
-import com.teseotech.partsInterface.utility.AddRemoveChecker;
-import com.teseotech.partsInterface.utility.LoggerInterface;
+import com.teseotech.partsInterface.implementation.partEvaluation.core.utility.AddRemoveChecker;
+import com.teseotech.partsInterface.implementation.partEvaluation.core.utility.StaticLogger;
 
-import java.util.Set;
 import java.util.List;
+import java.util.Set;
 
 // the interface to add instances and query affinity.
-public abstract class PartInterface implements AddRemoveChecker {
-    private final Set<KernelInterface<?,?>> kernels;
+public abstract class BasePart<F extends BaseFeature<?>> implements AddRemoveChecker {
+    private final Set<? extends F> features;
     private final String identifier;
 
-    public PartInterface(String identifier, Set<KernelInterface<?,?>> kernels){  // remember to set Instance name on super constructor!
+    public BasePart(String identifier, Set<? extends F> features){  // remember to set Instance name on super constructor!
         if(identifier != null)
             this.identifier = identifier;
-        else this.identifier = PartInterface.createIdentifier();
-        this.kernels = kernels;
+        else this.identifier = BasePart.createIdentifier();
+        this.features = features;
     }
 
     // Intended to change the TBox.
@@ -27,14 +27,14 @@ public abstract class PartInterface implements AddRemoveChecker {
     public abstract void removeInstance();
 
     // It queries the ontology and rank the affinity on the basis of `Kernel.evaluate()`.
-    public abstract List<Affinity> queryAffinity(Set<Target<?,?>> targets);
+    public abstract Affinity queryAffinity(Set<Kernel<?,?>> targets);
 
     public String getID(){
         return identifier;
     }
 
-    protected Set<KernelInterface<?,?>> getKernels() {
-        return this.kernels;
+    protected Set<? extends F> getFeatures() {
+        return this.features;
     }
 
     @Override
@@ -43,7 +43,7 @@ public abstract class PartInterface implements AddRemoveChecker {
     }
     @Override
     public String toString() {
-        return  getID()  + "->" + kernels;
+        return  getID()  + "->" + features;
     }
 
     // Generate Part identifier based on timestamp.
@@ -59,7 +59,7 @@ public abstract class PartInterface implements AddRemoveChecker {
             try {
                 id = now + "-" + (++idCnt);
             } catch (Exception e) {
-                LoggerInterface.logError(PartInterface.class, "Cannot generate part ID!");
+                StaticLogger.logError("Cannot generate part ID!");
                 id = "";
             }
 

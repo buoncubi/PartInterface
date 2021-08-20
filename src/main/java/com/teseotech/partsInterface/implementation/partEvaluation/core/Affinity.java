@@ -1,10 +1,12 @@
-package com.teseotech.partsInterface.coreInterface;
+package com.teseotech.partsInterface.implementation.partEvaluation.core;
 
 import java.util.Objects;
 
+// It is the main output of the software architecture
 public class Affinity {
     private final float degree;
     private final String identifier;
+    // todo add more evaluation details
 
     public Affinity(float degree, String id){
         this.degree = degree;
