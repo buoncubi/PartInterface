@@ -1,9 +1,8 @@
-package com.teseotech.partsInterface.core;
+package com.teseotech.partsInterface.utility;
 
-public interface AddRemoveChecker {
+public interface AddRemoveChecker  extends LoggerInterface{
 
     boolean exists();
-    //todo @Deprecated  // set as deprecate to simulate `getCheckerLog` as private but used in this interface
     String getCheckerLog();
 
     default boolean shouldAdd(){
@@ -12,11 +11,11 @@ public interface AddRemoveChecker {
     default boolean shouldAdd(boolean shouldLog){
         if(this.exists()) {
             if(shouldLog)
-                System.out.println("WARNING: cannot add an already existing " + getCheckerLog()+ ".");
+                logVerbose("WARNING: cannot add an already existing " + getCheckerLog()+ ".");
             return false;
         }
         if(shouldLog)
-            System.out.println("INFO: adding " + getCheckerLog() + '.');  // todo use logging system
+            logVerbose("adding " + getCheckerLog() + '.');
         return true;
     }
 
@@ -26,11 +25,11 @@ public interface AddRemoveChecker {
     default boolean shouldRemove(boolean shouldLog){
         if(!this.exists()) {
             if(shouldLog)
-                System.out.println("WARNING: cannot remove a missing " + getCheckerLog() + ".");
+                logVerbose("WARNING: cannot remove a missing " + getCheckerLog() + ".");
             return false;
         }
         if(shouldLog)
-            System.out.println("INFO: removing " + getCheckerLog() + '.');
+            logVerbose("removing " + getCheckerLog() + '.');
         return true;
     }
 }

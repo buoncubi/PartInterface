@@ -81,10 +81,10 @@
     
 
 
-    <!-- http://www.semanticweb.org/PartTest#P1 -->
+    <!-- http://www.semanticweb.org/PartTest#1629452840639 -->
 
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PartTest#P1">
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PartTest#1629452840639">
         <rdf:type rdf:resource="http://www.semanticweb.org/PartTest#MOTOR"/>
         <hasFeature1 rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</hasFeature1>
         <hasFeature2 rdf:datatype="http://www.w3.org/2001/XMLSchema#long">2</hasFeature2>
