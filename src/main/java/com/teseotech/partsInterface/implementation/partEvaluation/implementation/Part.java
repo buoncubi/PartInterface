@@ -28,7 +28,7 @@ public class Part extends OWLPart {
             if(found != null) {
                 Float eval = k.evaluate(found);
                 if(eval != null) {
-                    sum += k.getWeight() * k.evaluate(found);
+                    sum += k.getWeight() * eval;
                     cnt += k.getWeight();
                 }
             }else StaticLogger.logWarning("Target " + k + " not found in " + getFeatures() + '.');

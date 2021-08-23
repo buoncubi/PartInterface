@@ -2,7 +2,6 @@ package com.teseotech.partsInterface.implementation.partEvaluation.implementatio
 
 import com.teseotech.partsInterface.implementation.partEvaluation.core.BaseFeature;
 import com.teseotech.partsInterface.implementation.partEvaluation.core.BaseKernel;
-import com.teseotech.partsInterface.implementation.partEvaluation.core.utility.StaticLogger;
 
 public class KernelString extends BaseKernel<String, Void> {
     public KernelString(String targetKey, String targetValue) {
@@ -13,16 +12,11 @@ public class KernelString extends BaseKernel<String, Void> {
     }
 
     @Override
-    public <X extends BaseFeature<?>> Float evaluate(X actual) {
+    public <X extends BaseFeature<?>> Float evaluateChecked(X actual) {
         // `this` is the target, `actual` is the value from the ontology.
-        if(actual.getValue() instanceof String) {  // Check if the type is consistent.
-            if(this.checkFeaturesKey(actual)) {   // Check if the key is consistent.
-                String actualValue = ((String) actual.getValue()).trim();
-                if(actualValue.equalsIgnoreCase(getValue().trim()))  // If the target is equal to the actual value.
-                    return 1f;
-                else return 0f;
-            }
-        } else StaticLogger.logError("Cannot evaluate features that are not `String`; " + actual.getType() + " given instead.");
-        return null;
+        String actualValue = ((String) actual.getValue()).trim();
+        if(actualValue.equalsIgnoreCase(getValue().trim()))  // If the target is equal to the actual value.
+            return 1f;
+        else return 0f;
     }
 }

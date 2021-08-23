@@ -20,13 +20,18 @@ public abstract class BaseKernel<V,P> extends BaseFeature<V> {
     }
 
     // intended to be used while evaluating `Part.queryAffinity()`.
-    abstract public <X extends BaseFeature<?>> Float evaluate(X actual);  // The returning value should be in [0,1]; `null` is given in case of issues.
-    protected  <X extends BaseFeature<?>> boolean checkFeaturesKey(X actual){
-        if(!this.getKey().equals(actual.getKey())){
-            StaticLogger.logError("I cannot evaluate different `keys`, i.e., " + this + " != " + actual + '.');
-            return false;
-        }
-        return true;
+    abstract public <X extends BaseFeature<?>> Float evaluateChecked(X actual);  // The returning value should be in [0,1]; `null` is given in case of issues.
+    public <X extends BaseFeature<?>> Float evaluate(X actual) {  // The returning value should be in [0,1]; `null` is given in case of issues.
+        Float evaluation = null;
+        if(actual != null) {
+            if (actual.getType() == getType()) {// Check if the type is consistent.
+                if (this.getKey().equals(actual.getKey())) {   // Check if the key is consistent.
+                    evaluation = evaluateChecked(actual);
+                    StaticLogger.logVerbose("Kernel " + this + " evaluating " + actual + " with target " + actual + "(=" + evaluation +").");
+                } else StaticLogger.logError("I cannot evaluate different `keys`, i.e., " + this + " != " + actual + '.');
+            } else StaticLogger.logError("Cannot evaluate features that are not of the same type (" + actual.getType() + "!=" + getType() + '.');
+        } else StaticLogger.logError("I cannot evaluate kernel since actual value is not found (i.e., `null`).");
+        return evaluation;
     }
 
     public P getParameters() {

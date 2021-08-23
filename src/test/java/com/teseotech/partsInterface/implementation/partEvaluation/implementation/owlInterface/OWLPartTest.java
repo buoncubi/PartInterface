@@ -16,6 +16,7 @@ public class OWLPartTest {
         features.add(new OWLFeature<>("hasFeature1", 1, ontoRef));
         features.add(new OWLFeature<>("hasFeature2", 2L, ontoRef));
         features.add(new OWLFeature<>("hasFeature3", 3f, ontoRef));
+        features.add(new OWLFeature<>("hasFeature4", "F4", ontoRef));
         return features;
     }
 

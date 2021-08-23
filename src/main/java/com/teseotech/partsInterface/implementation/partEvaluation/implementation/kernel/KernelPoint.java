@@ -56,45 +56,41 @@ public class KernelPoint extends BaseKernel<Number, List<KernelPointParam>> {
         checkParameterSize(parameter);
     }
 
-   private void checkParameterSize(List<KernelPointParam> parameter) {
+    private void checkParameterSize(List<KernelPointParam> parameter) {
         if(getParameters().size() <= 1)
             StaticLogger.logError("Cannot evaluate " + this.getClass().getSimpleName() + " with parameters " + parameter + '.');
     }
 
     @Override
-    public <X extends BaseFeature<?>> Float evaluate(X actual) {
+    public <X extends BaseFeature<?>> Float evaluateChecked(X actual) {
         // `this` is the target, `actual` is the value from the ontology.
-        if(actual.getValue() instanceof Number) {  // Check if the type is consistent.
-            if (this.checkFeaturesKey(actual)) {   // Check if the key is consistent.
-                // compute distance
-                Number actualValue = (Number) actual.getValue();
-                float distance = (actualValue.floatValue() - this.getValue().floatValue()) / this.getValue().floatValue();
+        Number actualValue = (Number) actual.getValue();
+        // compute distance
+        float distance = (actualValue.floatValue() - this.getValue().floatValue()) / this.getValue().floatValue();
 
-                // compute the output based on intervals given as parameters
-                ArrayList<KernelPointParam> paramCopy = new ArrayList<>(getParameters());
-                KernelPointParam p0 = getParameters().get(0);
-                if (distance < p0.getValue())  // If is below the first interval `p0`.
-                    return p0.getDegree();
-                else {
-                    KernelPointParam pn = getParameters().get(getParameters().size() - 1);
-                    if (distance > pn.getValue())  // If is above the last interval `pn`.
-                        return pn.getDegree();
-                    else {
-                        paramCopy.remove(p0);
-                        paramCopy.remove(pn);
-                        KernelPointParam pPrevous = p0;
-                        for(KernelPointParam pNext: paramCopy){
-                            // If is within an interval p(i-1) (i.e., `pPrevious`) and p(i) (i.e., `pNext`) use a linear interpolation
-                            if(distance >= pPrevous.getValue() & distance < pNext.getValue())
-                                return linearInterpolation(distance, pPrevous, pNext);
-                            pPrevous = pNext;
-                        }
-                        if(distance >= pPrevous.getValue() & distance < pn.getValue())
-                            return linearInterpolation(distance, pPrevous, pn);
-                    }
+        // compute the output based on intervals given as parameters
+        ArrayList<KernelPointParam> paramCopy = new ArrayList<>(getParameters());
+        KernelPointParam p0 = getParameters().get(0);
+        if (distance < p0.getValue())  // If is below the first interval `p0`.
+            return p0.getDegree();
+        else {
+            KernelPointParam pn = getParameters().get(getParameters().size() - 1);
+            if (distance > pn.getValue())  // If is above the last interval `pn`.
+                return pn.getDegree();
+            else {
+                paramCopy.remove(p0);
+                paramCopy.remove(pn);
+                KernelPointParam pPrevous = p0;
+                for(KernelPointParam pNext: paramCopy){
+                    // If is within an interval p(i-1) (i.e., `pPrevious`) and p(i) (i.e., `pNext`) use a linear interpolation
+                    if(distance >= pPrevous.getValue() & distance < pNext.getValue())
+                        return linearInterpolation(distance, pPrevous, pNext);
+                    pPrevous = pNext;
                 }
+                if(distance >= pPrevous.getValue() & distance < pn.getValue())
+                    return linearInterpolation(distance, pPrevous, pn);
             }
-        } else StaticLogger.logError("Cannot evaluate features that are not 'Number`; " + actual.getType() + " given instead.");
+        }
         return null;
     }
 

@@ -16,7 +16,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class KernelPointTest {
-    public static Set<BaseKernel<?,?>> getKernels(OWLReferences ontoRef) {  // Based on `OWLPartTest.getFeatures`
+    public static Set<BaseKernel<?,?>> getKernels() {  // Based on `OWLPartTest.getFeatures`
         // Define some features (shared to all parts for simplicity).
         Set<BaseKernel<?,?>> kernels = new HashSet<>();
         kernels.add(new KernelPoint("hasFeature1", 1, getKernelParams()));
@@ -38,7 +38,7 @@ public class KernelPointTest {
         // Define some features and target kernels.
         OWLReferences ontology = OWLFeatureTest.setupTestOntology(KernelPointTest.class.getSimpleName());
         Set<OWLFeature<?>> features = OWLPartTest.getFeatures(ontology);
-        Set<BaseKernel<?, ?>> kernels = getKernels(ontology);
+        Set<BaseKernel<?, ?>> kernels = getKernels();
 
         // For all feature, test the kernel's evaluation.
         for(BaseKernel<?,?> k: kernels){

@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class KernelStringTest {
     private static ArrayList<Float> target = new ArrayList<>();
 
-    public static Set<BaseKernel<?,?>> getKernels(OWLReferences ontoRef) {  // Based on `OWLPartTest.getFeatures`
+    public static Set<BaseKernel<?,?>> getKernels() {
         Set<BaseKernel<?,?>> kernels = new HashSet<>();
         kernels.add(new KernelString("hasFeature1", "f1 ", 5));
         target.add(1.0f);
@@ -40,7 +40,7 @@ class KernelStringTest {
         // Define some features and target kernels.
         OWLReferences ontology = OWLFeatureTest.setupTestOntology(KernelPointTest.class.getSimpleName());
         Set<OWLFeature<?>> features = getFeatures(ontology);
-        Set<BaseKernel<?, ?>> kernels = getKernels(ontology);
+        Set<BaseKernel<?, ?>> kernels = getKernels();
 
         // For all feature, test the kernel's evaluation.
         List<Float> affinities = new ArrayList<>();
