@@ -28,9 +28,12 @@ class PartTest {
         // define some parts (all equal for simplicity) in a new ontology
         OWLReferences ontology = OWLFeatureTest.setupTestOntology("AffinityTest");
         Set<OWLFeature<?>> kernels = OWLPartTest.getFeatures(ontology);
-        new Part(partType, kernels, ontology).addInstance();
-        new Part(partType, kernels, ontology).addInstance();
-        new Part(partType, kernels, ontology).addInstance();
+        Part p1 = new Part(partType, kernels, ontology);
+        Part p2 = new Part(partType, kernels, ontology);
+        Part p3 = new Part(partType, kernels, ontology);
+        p1.addInstance();
+        p2.addInstance();
+        p3.addInstance();
 
         ontology.synchronizeReasoner();
 
@@ -38,6 +41,5 @@ class PartTest {
         for(Part p: parts){
             p.queryAffinity(getKernels(ontology));
         }
-
     }
 }

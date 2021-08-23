@@ -1,11 +1,11 @@
 package com.teseotech.partsInterface.implementation.partEvaluation.impl.owlInterface;
 
+import com.teseotech.partsInterface.implementation.partEvaluation.core.BasePart;
 import com.teseotech.partsInterface.implementation.partEvaluation.impl.affinity.Part;
 import it.emarolab.amor.owlInterface.OWLReferences;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 // It tests the definition of a `Part` in the ontology, and
 // it defines each required `Feature` in the ontology as well.
@@ -47,7 +47,11 @@ public class OWLPartTest {
         ontology.saveOntology();
         System.out.println("INFO: Ontology saved in " + ontology.getOntologyPath() + ". " +
                 "You should check that it represents only the '" + p1.getID() + "' part.");
+    }
 
-
+    @Test
+    public void createIdentifier(){
+        for(int i = 0; i < 100; i++)
+            System.out.println(BasePart.createIdentifier());
     }
 }

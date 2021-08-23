@@ -38,7 +38,7 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
             return indDescr;
         } catch (Exception e){
             StaticLogger.logError("Cannot use ontology '" + ontology + "'!");
-            e.printStackTrace();
+            //e.printStackTrace();
             return null;
         }
     }

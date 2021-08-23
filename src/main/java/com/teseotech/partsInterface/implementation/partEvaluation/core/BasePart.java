@@ -49,18 +49,19 @@ public abstract class BasePart<F extends BaseFeature<?>> implements AddRemoveChe
     // Generate Part identifier based on timestamp.
     private static int idCnt = 0;
     private static long lastId = System.currentTimeMillis();
-    static String createIdentifier(){
+    public static String createIdentifier(){
         long now = System.currentTimeMillis();
         String id;
         if(now != lastId){
-            id = now + "";
             idCnt = 0;
+            id = now + "-" + idCnt;
         } else {
             try {
                 id = now + "-" + (++idCnt);
             } catch (Exception e) {
                 StaticLogger.logError("Cannot generate part ID!");
                 id = "";
+                idCnt = 0;
             }
 
         }

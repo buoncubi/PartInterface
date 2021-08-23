@@ -1,8 +1,6 @@
 package com.teseotech.partsInterface.implementation.partEvaluation.impl.affinity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.teseotech.partsInterface.implementation.partEvaluation.core.Affinity;
-import com.teseotech.partsInterface.implementation.partEvaluation.core.BaseFeature;
 import com.teseotech.partsInterface.implementation.partEvaluation.core.Kernel;
 import com.teseotech.partsInterface.implementation.partEvaluation.core.utility.StaticLogger;
 import com.teseotech.partsInterface.implementation.partEvaluation.impl.owlInterface.OWLFeature;
