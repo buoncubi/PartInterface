@@ -1,4 +1,4 @@
-package com.teseotech.partsInterface.implementation.partEvaluation.impl.affinity;
+package com.teseotech.partsInterface.implementation.partEvaluation.implementation.affinity;
 
 import com.teseotech.partsInterface.implementation.partEvaluation.core.BaseFeature;
 import com.teseotech.partsInterface.implementation.partEvaluation.core.Kernel;

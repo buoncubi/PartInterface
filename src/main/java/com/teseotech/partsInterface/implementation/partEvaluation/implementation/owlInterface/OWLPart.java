@@ -1,8 +1,8 @@
-package com.teseotech.partsInterface.implementation.partEvaluation.impl.owlInterface;
+package com.teseotech.partsInterface.implementation.partEvaluation.implementation.owlInterface;
 
 import com.teseotech.partsInterface.implementation.partEvaluation.core.BasePart;
 import com.teseotech.partsInterface.implementation.partEvaluation.core.utility.StaticLogger;
-import com.teseotech.partsInterface.implementation.partEvaluation.impl.affinity.Part;
+import com.teseotech.partsInterface.implementation.partEvaluation.implementation.affinity.Part;
 import it.emarolab.amor.owlInterface.OWLReferences;
 import it.emarolab.owloop.descriptor.construction.descriptorEntitySet.DataLinks;
 import it.emarolab.owloop.descriptor.utility.classDescriptor.FullClassDesc;

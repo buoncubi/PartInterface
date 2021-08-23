@@ -1,4 +1,4 @@
-package com.teseotech.partsInterface.implementation.partEvaluation.impl.owlInterface;
+package com.teseotech.partsInterface.implementation.partEvaluation.implementation.owlInterface;
 
 import com.teseotech.partsInterface.implementation.partEvaluation.core.utility.StaticLogger;
 import it.emarolab.amor.owlInterface.OWLReferences;
@@ -12,7 +12,7 @@ import java.util.logging.Level;
 // This behaviour is also tested by `PartOWLTest`.
 public class OWLFeatureTest {
     public static OWLReferences setupTestOntology(String ontoName) {
-        StaticLogger.setLogger(Level.INFO);
+        StaticLogger.setLogger(Level.INFO);  // SEVERE (i.e., error), WARNING, INFO, FINE (i.e., verbose debug).
         Axiom.Descriptor.OntologyReference.activateAMORlogging(false); // Disabling OWLOOP and aMOE logs.
         // Creating a reference to a new ontology.
         return Axiom.Descriptor.OntologyReference.newOWLReferencesCreatedWithPellet(

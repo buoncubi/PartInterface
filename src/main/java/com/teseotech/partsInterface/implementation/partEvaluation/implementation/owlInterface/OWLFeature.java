@@ -1,4 +1,4 @@
-package com.teseotech.partsInterface.implementation.partEvaluation.impl.owlInterface;
+package com.teseotech.partsInterface.implementation.partEvaluation.implementation.owlInterface;
 
 import com.teseotech.partsInterface.implementation.partEvaluation.core.WritableFeature;
 import com.teseotech.partsInterface.implementation.partEvaluation.core.utility.StaticLogger;

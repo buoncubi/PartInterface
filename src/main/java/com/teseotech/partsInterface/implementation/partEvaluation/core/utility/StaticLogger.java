@@ -1,20 +1,17 @@
 package com.teseotech.partsInterface.implementation.partEvaluation.core.utility;
 
-import java.util.logging.Logger;
-import java.util.logging.Level;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.SimpleFormatter;
+import java.util.logging.*;
 
 public class StaticLogger{
-    static Logger logger = configure(Level.INFO);
+    private static Logger logger = null;
 
-    private StaticLogger(){} // not constructable
+    private StaticLogger(){} // StaticLogger is not constructable
 
     static public void setLogger(Level level){
         logger = configure(level);
     }
     private static Logger configure(Level level) {
-        final Logger app = Logger.getLogger("app");
+        final Logger logger = Logger.getLogger("");
         try {
             /*// Load a properties file from class path that way can't be achieved with java.util.logging.config.file
             final LogManager logManager = LogManager.getLogManager();
@@ -29,24 +26,32 @@ public class StaticLogger{
             consoleHandler.setLevel(level);
             consoleHandler.setFormatter(new SimpleFormatter());
 
-            app.setLevel(level);
-            app.addHandler(consoleHandler);
+            logger.setLevel(level);
+            for(Handler h: Logger.getLogger("").getHandlers())
+                logger.removeHandler(h);  // clear all header to print only once (this is a rough simplification).
+            logger.addHandler(consoleHandler);
         } catch (Exception e) {
             e.printStackTrace();
+            return StaticLogger.logger;
         }
-        return app;
+        return logger;
     }
 
+    static public void log(Level level, String content){
+        if(logger != null)
+            logger.log(level, content);
+        else System.out.println( level.getName() + ":\t" + content);
+    }
     static public void logVerbose(String content){
-        logger.log(Level.FINE, content);
+        log(Level.FINE, content);
     }
     static public void logInfo(String content){
-        logger.log(Level.INFO, content);
+        log(Level.INFO, content);
     }
     static public void logWarning(String content){
-        logger.log(Level.WARNING, content);
+        log(Level.WARNING, content);
     }
     static public void logError(String content){
-        logger.log(Level.SEVERE, content);
+        log(Level.SEVERE, content);
     }
 }
