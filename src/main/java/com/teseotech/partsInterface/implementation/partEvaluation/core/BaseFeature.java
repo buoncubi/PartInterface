@@ -7,11 +7,11 @@ import java.util.Objects;
 // A Pair like structure as <key,value>, e.g., <hasLength,0.2>.
 // The datatype is inferred from the given `value`.
 // `F` should be of type: `Integer`, `Float`, `Double`, `Long`, `Boolean` or `String`.
-public class BaseFeature<F> {
+public class BaseFeature<V> {
     private String key = null;
-    private F value = null;
+    private V value = null;
 
-    public BaseFeature(String key, F value){
+    public BaseFeature(String key, V value){
         this.setKey(key);
         this.setValue(value);
     }
@@ -19,7 +19,7 @@ public class BaseFeature<F> {
     public void setKey(String key) {
         this.key = key;
     }
-    public void setValue(F value) {
+    public void setValue(V value) {
         this.value = value;
         if(!((value instanceof Integer) | (value instanceof Float) | (value instanceof Double)
                 | (value instanceof Long) | (value instanceof String)))
@@ -29,7 +29,7 @@ public class BaseFeature<F> {
     public String getKey() {
         return key;
     }
-    public F getValue() {
+    public V getValue() {
         return value;
     }
     public Class<?> getType(){

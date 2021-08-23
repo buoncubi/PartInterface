@@ -11,7 +11,7 @@ import java.util.logging.Level;
 // It tests the definition of a `Feature` in the ontology.
 // This behaviour is also tested by `PartOWLTest`.
 public class OWLFeatureTest {
-    public static OWLReferences setupTestOntology(String ontoName) {
+    public static OWLReferences setupTestOntology(String ontoName) {  // toddo move as utility
         StaticLogger.setLogger(Level.INFO);  // SEVERE (i.e., error), WARNING, INFO, FINE (i.e., verbose debug).
         Axiom.Descriptor.OntologyReference.activateAMORlogging(false); // Disabling OWLOOP and aMOE logs.
         // Creating a reference to a new ontology.
@@ -25,7 +25,7 @@ public class OWLFeatureTest {
 
     @Test
     void addRemoveFeature(){
-        OWLReferences ontoRef = setupTestOntology("FeatureTest");  // Create a new ontology.
+        OWLReferences ontoRef = setupTestOntology(OWLFeatureTest.class.getSimpleName());  // Create a new ontology.
 
         // Define two features. The `value` is only used to retrieve its dataType, i.e., the actual value is not considered.
         OWLFeature<Number> f1 = new OWLFeature<>("hasFeature1", 0, ontoRef);

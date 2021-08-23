@@ -1,6 +1,7 @@
-package com.teseotech.partsInterface.implementation.partEvaluation.implementation.affinity;
+package com.teseotech.partsInterface.implementation.partEvaluation.implementation;
 
-import com.teseotech.partsInterface.implementation.partEvaluation.core.Kernel;
+import com.teseotech.partsInterface.implementation.partEvaluation.core.Affinity;
+import com.teseotech.partsInterface.implementation.partEvaluation.implementation.kernel.KernelPointTest;
 import com.teseotech.partsInterface.implementation.partEvaluation.implementation.owlInterface.OWLFeature;
 import com.teseotech.partsInterface.implementation.partEvaluation.implementation.owlInterface.OWLFeatureTest;
 import com.teseotech.partsInterface.implementation.partEvaluation.implementation.owlInterface.OWLPart;
@@ -11,22 +12,15 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-class PartTest {
-    public static Set<Kernel<?,?>> getKernels(OWLReferences ontoRef) {  // Based on `OWLPartTest.getFeatures`
-        // Define some features (shared to all parts for simplicity).
-        Set<Kernel<?,?>> kernels = new HashSet<>();
-        kernels.add(new KernelPoint("hasFeature1", 1, new KernelPointParam()));
-        kernels.add(new KernelPoint("hasFeature2", 2L, new KernelPointParam()));
-        kernels.add(new KernelPoint("hasFeature3", 3f, new KernelPointParam()));
-        return kernels;
-    }
+import static org.junit.jupiter.api.Assertions.*;
 
+class PartTest {
     @Test
     public void testAffinity(){
         String partType = "MOTOR";
 
         // Define some parts (all equal for simplicity) in a new ontology.
-        OWLReferences ontology = OWLFeatureTest.setupTestOntology("AffinityTest");
+        OWLReferences ontology = OWLFeatureTest.setupTestOntology(PartTest.class.getSimpleName());
         Set<OWLFeature<?>> kernels = OWLPartTest.getFeatures(ontology);
         new Part(partType, kernels, ontology).addInstance();
         new Part(partType, kernels, ontology).addInstance();
@@ -35,8 +29,13 @@ class PartTest {
         // Retrieve some parts from the ontology.
         ontology.synchronizeReasoner();
         Set<Part> parts = OWLPart.readParts(partType, ontology);
+        Set<Affinity> affinities = new HashSet<>();
         for(Part p: parts){
-            p.queryAffinity(getKernels(ontology));
+            Affinity affinity = p.queryAffinity(KernelPointTest.getKernels(ontology));
+            affinities.add(affinity);
+            assertEquals(affinity.getDegree(), 1.0f);
         }
+        System.out.println("Affinities found (partId, affinityDegree): " + affinities
+                + ". By the definition of this test, the affinity should always be 1.");
     }
 }

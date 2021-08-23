@@ -1,7 +1,7 @@
-package com.teseotech.partsInterface.implementation.partEvaluation.implementation.affinity;
+package com.teseotech.partsInterface.implementation.partEvaluation.implementation;
 
 import com.teseotech.partsInterface.implementation.partEvaluation.core.Affinity;
-import com.teseotech.partsInterface.implementation.partEvaluation.core.Kernel;
+import com.teseotech.partsInterface.implementation.partEvaluation.core.BaseKernel;
 import com.teseotech.partsInterface.implementation.partEvaluation.core.utility.StaticLogger;
 import com.teseotech.partsInterface.implementation.partEvaluation.implementation.owlInterface.OWLFeature;
 import com.teseotech.partsInterface.implementation.partEvaluation.implementation.owlInterface.OWLPart;
@@ -18,25 +18,29 @@ public class Part extends OWLPart {
     }
 
     @Override
-    public Affinity queryAffinity(Set<Kernel<?,?>> targets) {
+    public Affinity queryAffinity(Set<BaseKernel<?,?>> targets) {
         int cnt = 0;
         float sum = 0;
-        for (Kernel<?,?> k: targets) {
+        for (BaseKernel<?,?> k: targets) {
             // Search for actual value that match the `key` of a target Kernel.
-            OWLFeature<?> found = null;
-            for (OWLFeature<?> f : getFeatures()) {
-                if(k.getKey().equals(f.getKey())){
-                    found = f;
-                    break;
-                }
-            }
+            OWLFeature<?> found = findKernel(getFeatures(), k);
             // compute weighted average among `key` pair between actual and target values.
             if(found != null) {
-                sum += k.getWeight() * k.evaluate(found);
-                cnt += k.getWeight();
+                Float eval = k.evaluate(found);
+                if(eval != null) {
+                    sum += k.getWeight() * k.evaluate(found);
+                    cnt += k.getWeight();
+                }
             }else StaticLogger.logWarning("Target " + k + " not found in " + getFeatures() + '.');
         }
         float weightedAvg = sum/cnt;
         return new Affinity(weightedAvg, this.getID());
+    }
+
+    static public OWLFeature<?> findKernel(Set<? extends OWLFeature<?>> features, BaseKernel<?, ?> k){
+        for (OWLFeature<?> f: features)
+            if(k.getKey().equals(f.getKey()))
+                return f;
+        return null;
     }
 }

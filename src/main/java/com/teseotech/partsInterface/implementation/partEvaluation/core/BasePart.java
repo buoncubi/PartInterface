@@ -3,7 +3,6 @@ package com.teseotech.partsInterface.implementation.partEvaluation.core;
 import com.teseotech.partsInterface.implementation.partEvaluation.core.utility.AddRemoveChecker;
 import com.teseotech.partsInterface.implementation.partEvaluation.core.utility.StaticLogger;
 
-import java.util.List;
 import java.util.Set;
 
 // the interface to add instances and query affinity.
@@ -27,7 +26,7 @@ public abstract class BasePart<F extends BaseFeature<?>> implements AddRemoveChe
     public abstract void removeInstance();
 
     // It queries the ontology and rank the affinity on the basis of `Kernel.evaluate()`.
-    public abstract Affinity queryAffinity(Set<Kernel<?,?>> targets);
+    public abstract Affinity queryAffinity(Set<BaseKernel<?,?>> targets);
 
     public String getID(){
         return identifier;
