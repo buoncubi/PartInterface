@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 class KernelRangeTest {
-    private static Range actualRange = new Range(0,9);
+    private static final Range actualRange = new Range(0f,9);
 
     public static Set<OWLFeature<?>> getFeatures(OWLReferences ontoRef) {
         // Define some features (shared to all parts for simplicity).
@@ -28,9 +28,9 @@ class KernelRangeTest {
         Set<BaseKernel<?,?>> kernels = new HashSet<>();
         // Define target ranges.
         kernels.add(new KernelRange("hasFeature1", actualRange));
-        kernels.add(new KernelRange("hasFeature2", new Range(3,7)));
-        kernels.add(new KernelRange("hasFeature3", new Range(-1,10)));
-        kernels.add(new KernelRange("hasFeature4", new Range(1,10)));
+        kernels.add(new KernelRange("hasFeature2", new Range(3f,7f)));
+        kernels.add(new KernelRange("hasFeature3", new Range(-1L,10L)));
+        kernels.add(new KernelRange("hasFeature4", new Range(1,10f)));
         kernels.add(new KernelRange("hasFeature5", new Range(-1,7)));
         return kernels;
     }

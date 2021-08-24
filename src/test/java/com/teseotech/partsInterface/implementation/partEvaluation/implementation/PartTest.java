@@ -3,7 +3,9 @@ package com.teseotech.partsInterface.implementation.partEvaluation.implementatio
 import com.teseotech.partsInterface.implementation.partEvaluation.core.Affinity;
 import com.teseotech.partsInterface.implementation.partEvaluation.core.BaseKernel;
 import com.teseotech.partsInterface.implementation.partEvaluation.implementation.kernel.KernelPoint;
+import com.teseotech.partsInterface.implementation.partEvaluation.implementation.kernel.KernelRange;
 import com.teseotech.partsInterface.implementation.partEvaluation.implementation.kernel.KernelString;
+import com.teseotech.partsInterface.implementation.partEvaluation.implementation.kernel.Range;
 import com.teseotech.partsInterface.implementation.partEvaluation.implementation.owlInterface.OWLFeature;
 import com.teseotech.partsInterface.implementation.partEvaluation.implementation.owlInterface.OWLFeatureTest;
 import com.teseotech.partsInterface.implementation.partEvaluation.implementation.owlInterface.OWLPart;
@@ -21,8 +23,8 @@ class PartTest {
     public static Set<BaseKernel<?,?>> getKernels() {  // Based on `OWLPartTest.getFeatures`
         // Define some features (shared to all parts for simplicity).
         Set<BaseKernel<?,?>> kernels = new HashSet<>();
-        kernels.add(new KernelPoint("hasFeature1", 1, getKernelParams()));
-        kernels.add(new KernelPoint("hasFeature2", 2L, getKernelParams()));
+        kernels.add(new KernelRange("hasFeature1", new Range(0,5)));
+        kernels.add(new KernelPoint("hasFeature2", 2f, getKernelParams()));
         kernels.add(new KernelPoint("hasFeature3", 3f, getKernelParams()));
         kernels.add(new KernelString("hasFeature4", "f4"));
         return kernels;
@@ -42,13 +44,10 @@ class PartTest {
         // Retrieve some parts from the ontology.
         ontology.synchronizeReasoner();
         Set<Part> parts = OWLPart.readParts(partType, ontology);
-        Set<Affinity> affinities = new HashSet<>();
         for(Part p: parts){
             Affinity affinity = p.queryAffinity(getKernels());
-            affinities.add(affinity);
-            assertEquals(affinity.getDegree(), 1.0f);
+            System.out.println("Affinities found (partId, affinityDegree): " + affinity
+                    + ". You should check manually that te results are correct!");
         }
-        System.out.println("Affinities found (partId, affinityDegree): " + affinities
-                + ". By the definition of this test, the affinity should always be 1.");
     }
 }

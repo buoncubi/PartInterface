@@ -24,14 +24,20 @@ public abstract class BaseKernel<V,P> extends BaseFeature<V> {
     public <X extends BaseFeature<?>> Float evaluate(X actual) {  // The returning value should be in [0,1]; `null` is given in case of issues.
         Float evaluation = null;
         if(actual != null) {
-            if (actual.getType() == getType()) {// Check if the type is consistent.
-                if (this.getKey().equals(actual.getKey())) {   // Check if the key is consistent.
+            if(this.checkType(actual)) {// Check if the type is consistent.
+                if(this.checkKey(actual)) {   // Check if the key is consistent.
                     evaluation = evaluateChecked(actual);
                     StaticLogger.logVerbose("Kernel " + this + " evaluating " + actual + " with target " + actual + "(=" + evaluation +").");
                 } else StaticLogger.logError("I cannot evaluate different `keys`, i.e., " + this + " != " + actual + '.');
             } else StaticLogger.logError("Cannot evaluate features that are not of the same type (" + actual.getType() + "!=" + getType() + '.');
         } else StaticLogger.logError("I cannot evaluate kernel since actual value is not found (i.e., `null`).");
         return evaluation;
+    }
+    protected <X extends BaseFeature<?>> boolean checkKey(X actual){
+        return this.getKey().equals(actual.getKey());
+    }
+    protected <X extends BaseFeature<?>> boolean checkType(X actual){
+        return actual.getType() == this.getType();
     }
 
     public P getParameters() {
@@ -46,6 +52,6 @@ public abstract class BaseKernel<V,P> extends BaseFeature<V> {
         return this.getClass().getSimpleName() + "(w:" + weight + ")"; // + parameters;
     }
     public String toDescription() {
-        return this.getClass().getSimpleName() + "(w:" + weight + ", v:" + getValue() + ", k" + getKey() + ", p:" + parameters + ')';
+        return this.getClass().getSimpleName() + "(w:" + weight + ", v:" + getValue() + ", k:" + getKey() + ", p:" + parameters + ')';
     }
 }
