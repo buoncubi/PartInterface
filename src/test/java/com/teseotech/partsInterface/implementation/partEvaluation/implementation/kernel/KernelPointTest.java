@@ -45,7 +45,7 @@ public class KernelPointTest {
             OWLFeature<?> found = Part.findKernel(features, k);
             Float affinity = k.evaluate(found);
             if(affinity != null) {
-                System.out.println("The evaluation of " + k + " is: " + affinity + '.');
+                System.out.println("The evaluation of " + k.toDescription() + " is: " + affinity + '.');
                 assertEquals(affinity, 1.0f);
             } else System.out.println("ERROR: cannot evaluate features with the kernel " + k.getClass().getSimpleName() + '.');
         }

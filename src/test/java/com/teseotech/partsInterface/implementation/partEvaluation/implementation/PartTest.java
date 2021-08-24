@@ -3,7 +3,6 @@ package com.teseotech.partsInterface.implementation.partEvaluation.implementatio
 import com.teseotech.partsInterface.implementation.partEvaluation.core.Affinity;
 import com.teseotech.partsInterface.implementation.partEvaluation.core.BaseKernel;
 import com.teseotech.partsInterface.implementation.partEvaluation.implementation.kernel.KernelPoint;
-import com.teseotech.partsInterface.implementation.partEvaluation.implementation.kernel.KernelPointTest;
 import com.teseotech.partsInterface.implementation.partEvaluation.implementation.kernel.KernelString;
 import com.teseotech.partsInterface.implementation.partEvaluation.implementation.owlInterface.OWLFeature;
 import com.teseotech.partsInterface.implementation.partEvaluation.implementation.owlInterface.OWLFeatureTest;

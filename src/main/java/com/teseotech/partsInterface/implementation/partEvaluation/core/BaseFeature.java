@@ -21,9 +21,9 @@ public class BaseFeature<V> {
     }
     public void setValue(V value) {
         this.value = value;
-        if(!((value instanceof Integer) | (value instanceof Float) | (value instanceof Double)
-                | (value instanceof Long) | (value instanceof String)))
-            StaticLogger.logWarning("The given feature value (i.e., " + value + " is of unknown type." );
+        // if(!((value instanceof Integer) | (value instanceof Float) | (value instanceof Double)
+        //        | (value instanceof Long) | (value instanceof String)))
+        //    StaticLogger.logWarning("The given feature value (i.e., " + value + ") is of unknown type." );
     }
 
     public String getKey() {

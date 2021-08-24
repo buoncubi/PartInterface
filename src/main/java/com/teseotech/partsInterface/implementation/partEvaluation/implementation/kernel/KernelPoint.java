@@ -50,12 +50,10 @@ public class KernelPoint extends BaseKernel<Number, List<KernelPointParam>> {
         super(targetKey, targetValue, parameter);
         checkParameterSize(parameter);
     }
-
     public KernelPoint(String targetKey, Number targetValue, List<KernelPointParam> parameter, float weight) {
         super(targetKey, targetValue, parameter, weight);
         checkParameterSize(parameter);
     }
-
     private void checkParameterSize(List<KernelPointParam> parameter) {
         if(getParameters().size() <= 1)
             StaticLogger.logError("Cannot evaluate " + this.getClass().getSimpleName() + " with parameters " + parameter + '.');
@@ -82,7 +80,7 @@ public class KernelPoint extends BaseKernel<Number, List<KernelPointParam>> {
                 paramCopy.remove(pn);
                 KernelPointParam pPrevous = p0;
                 for(KernelPointParam pNext: paramCopy){
-                    // If is within an interval p(i-1) (i.e., `pPrevious`) and p(i) (i.e., `pNext`) use a linear interpolation
+                    // If is within an interval p(i-1) (i.e., `pPrevious`) and p(i) (i.e., `pNext`) a linear interpolation is used.
                     if(distance >= pPrevous.getValue() & distance < pNext.getValue())
                         return linearInterpolation(distance, pPrevous, pNext);
                     pPrevous = pNext;

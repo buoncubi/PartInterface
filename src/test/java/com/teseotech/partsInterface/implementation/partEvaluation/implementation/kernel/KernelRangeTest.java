@@ -7,32 +7,32 @@ import com.teseotech.partsInterface.implementation.partEvaluation.implementation
 import it.emarolab.amor.owlInterface.OWLReferences;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+class KernelRangeTest {
+    private static Range actualRange = new Range(0,9);
 
-class KernelStringTest {
-    private static ArrayList<Float> target = new ArrayList<>();
-
-    public static Set<BaseKernel<?,?>> getKernels() {
-        Set<BaseKernel<?,?>> kernels = new HashSet<>();
-        kernels.add(new KernelString("hasFeature1", "f1 ", 5));
-        target.add(1.0f);
-        kernels.add(new KernelString("hasFeature2", "???", 1));
-        target.add(0.0f);
-        kernels.add(new KernelString("hasFeature3", "F3 ", 5));
-        target.add(1.0f);
-        return kernels;
-    }
     public static Set<OWLFeature<?>> getFeatures(OWLReferences ontoRef) {
+        // Define some features (shared to all parts for simplicity).
         Set<OWLFeature<?>> features = new HashSet<>();
-        features.add(new OWLFeature<>("hasFeature1", "F1 ", ontoRef));
-        features.add(new OWLFeature<>("hasFeature2", "F2", ontoRef));
-        features.add(new OWLFeature<>("hasFeature3", "F3", ontoRef));
+        features.add(new OWLFeature<>("hasFeature1", actualRange, ontoRef));  // equal
+        features.add(new OWLFeature<>("hasFeature2", actualRange, ontoRef));  // overlaps
+        features.add(new OWLFeature<>("hasFeature3", actualRange, ontoRef));  // within
+        features.add(new OWLFeature<>("hasFeature4", actualRange, ontoRef));  // overlaps min
+        features.add(new OWLFeature<>("hasFeature5", actualRange, ontoRef));  // overlap max
         return features;
+    }
+    public static Set<BaseKernel<?,?>> getKernels() {  // Based on `OWLPartTest.getFeatures`
+        // Define some features (shared to all parts for simplicity).
+        Set<BaseKernel<?,?>> kernels = new HashSet<>();
+        // Define target ranges.
+        kernels.add(new KernelRange("hasFeature1", actualRange));
+        kernels.add(new KernelRange("hasFeature2", new Range(3,7)));
+        kernels.add(new KernelRange("hasFeature3", new Range(-1,10)));
+        kernels.add(new KernelRange("hasFeature4", new Range(1,10)));
+        kernels.add(new KernelRange("hasFeature5", new Range(-1,7)));
+        return kernels;
     }
 
     @Test
@@ -43,15 +43,14 @@ class KernelStringTest {
         Set<BaseKernel<?, ?>> kernels = getKernels();
 
         // For all feature, test the kernel's evaluation.
-        List<Float> affinities = new ArrayList<>();
         for(BaseKernel<?,?> k: kernels){
             OWLFeature<?> found = Part.findKernel(features, k);
             Float affinity = k.evaluate(found);
-            affinities.add(affinity);
             if(affinity != null)
-                System.out.println("The evaluation of " + k.toDescription() + " is: " + affinity + '.');
+                System.out.println("The evaluation of " + k.toDescription()
+                        + " target v.s. " + actualRange + " range is: " + affinity
+                        + ".  You should check manually if it is correct!");
             else System.out.println("ERROR: cannot evaluate features with the kernel " + k.getClass().getSimpleName() + '.');
         }
-        assertEquals(affinities, target); // The target is associated with `getKernels()` setups.
     }
 }
