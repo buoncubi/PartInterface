@@ -2,9 +2,9 @@ package com.teseotech.partsInterface.core;
 
 import com.teseotech.partsInterface.utility.AddRemoveChecker;
 
-public abstract class WritableFeature<F> extends BaseFeature<F> implements AddRemoveChecker {
+public abstract class WritableFeature<V> extends BaseFeature<V> implements AddRemoveChecker {
 
-    public WritableFeature(String key, F value) {
+    public WritableFeature(String key, V value) {
         super(key, value);
     }
 
