@@ -2,13 +2,13 @@ package com.teseotech.partsInterface.implementation.owlInterface;
 
 import com.teseotech.partsInterface.core.BasePart;
 import com.teseotech.partsInterface.implementation.kernel.Range;
+import com.teseotech.partsInterface.utility.owloopDescriptor.ClassifiedIndividualDescr;
+import com.teseotech.partsInterface.utility.owloopDescriptor.IndividualDataDescr;
+import com.teseotech.partsInterface.utility.owloopDescriptor.PartIndividualDescr;
 import com.teseotech.partsInterface.utility.StaticLogger;
 import com.teseotech.partsInterface.implementation.Part;
 import it.emarolab.amor.owlInterface.OWLReferences;
 import it.emarolab.owloop.descriptor.construction.descriptorEntitySet.DataLinks;
-import it.emarolab.owloop.descriptor.construction.descriptorEntitySet.Literals;
-import it.emarolab.owloop.descriptor.utility.classDescriptor.FullClassDesc;
-import it.emarolab.owloop.descriptor.utility.individualDescriptor.FullIndividualDesc;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
@@ -19,7 +19,7 @@ import java.util.Set;
 public abstract class OWLPart extends BasePart<OWLFeature<?>> {
     private final String partType;
     static private boolean LOG_FEATURE_ADDING = true;
-    private final FullIndividualDesc indDescriptor;  // TODO use dedicated OWLOOP descriptors (see also elsewhere)
+    private final PartIndividualDescr indDescriptor;
 
     public OWLPart(String identifier, String partType, Set<? extends OWLFeature<?>> features, OWLReferences ontology) {
         super(identifier, features);
@@ -33,9 +33,9 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
         this.indDescriptor = createOWLDescriptor(ontology);
         this.setOntologyFeatures(ontology);  // It configure `this.getFeature()`, which should be already set.
     }
-    private FullIndividualDesc createOWLDescriptor(OWLReferences ontology){
+    private PartIndividualDescr createOWLDescriptor(OWLReferences ontology){
         try {
-            FullIndividualDesc indDescr = new FullIndividualDesc(getID(), ontology);
+            PartIndividualDescr indDescr = new PartIndividualDescr(getID(), ontology);
             indDescr.readAxioms();
             indDescr.addTypeIndividual(this.getType());
             return indDescr;
@@ -88,7 +88,7 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
     public String getType() {
         return partType;
     }
-    public FullIndividualDesc getOWLDescriptor() {
+    public PartIndividualDescr getOWLDescriptor() {
         return this.indDescriptor;
     }
 
@@ -103,7 +103,7 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
 
     public static Set<Part> readParts(String partType, OWLReferences ontology){
         // Find all IDs of the parts with a given type (e.g., "MOTOR").
-        FullClassDesc clsDescr = new FullClassDesc(partType, ontology);
+        ClassifiedIndividualDescr clsDescr = new ClassifiedIndividualDescr(partType, ontology);
         clsDescr.readAxioms();
         Set<String> partsId = new HashSet<>();
         for(OWLNamedIndividual p: clsDescr.getIndividuals()){
@@ -112,7 +112,7 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
         // find the Features related to each part.
         Set<Part> parts = new HashSet<>();
         for(String id: partsId){
-            FullIndividualDesc p = new FullIndividualDesc(id, ontology);  // TODO use dedicated descriptor.
+            IndividualDataDescr p = new IndividualDataDescr(id, ontology);
             p.readAxioms();
             Set<OWLFeature<?>> features = new HashSet<>();
             for(DataLinks d: p.getDataProperties()){

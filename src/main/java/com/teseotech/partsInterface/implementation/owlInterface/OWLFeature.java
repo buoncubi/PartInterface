@@ -1,14 +1,15 @@
 package com.teseotech.partsInterface.implementation.owlInterface;
 
+import com.teseotech.partsInterface.utility.owloopDescriptor.FeaturePropertyDescr;
 import com.teseotech.partsInterface.utility.StaticLogger;
 import com.teseotech.partsInterface.core.WritableFeature;
 import it.emarolab.amor.owlInterface.OWLReferences;
-import it.emarolab.owloop.descriptor.utility.dataPropertyDescriptor.FullDataPropertyDesc;
 
 public class OWLFeature<F> extends WritableFeature<F> {
-    private FullDataPropertyDesc propDescriptor = null; // TODO use dedicated OWLOOP descriptor
+    private FeaturePropertyDescr propDescriptor = null;
 
-    public OWLFeature(String key, F value) {  // This is the constructor to be used if the Feature is inside a Part.
+    // This is the constructor to be used if the Feature is inside a Part. It requires to invoke `setOWLDescriptor`.
+    public OWLFeature(String key, F value) {
         super(key, value);
     }
     public OWLFeature(String key, F value, OWLReferences ontology) {
@@ -17,7 +18,7 @@ public class OWLFeature<F> extends WritableFeature<F> {
     }
     public void setOWLDescriptor(OWLReferences ontology){
         try {
-            this.propDescriptor = new FullDataPropertyDesc(this.getKey(), ontology);
+            this.propDescriptor = new FeaturePropertyDescr(this.getKey(), ontology);
             this.propDescriptor.readAxioms();
         } catch (Exception e){
             StaticLogger.logError("cannot use ontology '" + ontology + "'!");
@@ -25,7 +26,7 @@ public class OWLFeature<F> extends WritableFeature<F> {
             this.propDescriptor = null;
         }
     }
-    public FullDataPropertyDesc getOWLDescriptor() {
+    public FeaturePropertyDescr getOWLDescriptor() {
         return this.propDescriptor;
     }
 

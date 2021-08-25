@@ -79,7 +79,7 @@ public class ExampleInterface {
         Affinity bestMatch = affinities.get(affinities.size() - 1);
         for(Part p: parts){
             if(p.getID().equals(bestMatch.getID())) {
-                System.out.println("The best part is: " + p + " with a degree of " + (bestMatch.getDegree() * 100) + "%.");
+                System.out.println("The best part is: " + p + " with a degree of " + String.format("%.1f",bestMatch.getDegree() * 100) + "%.");
                 break;
             }
         }
