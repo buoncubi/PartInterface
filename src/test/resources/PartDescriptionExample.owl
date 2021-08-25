@@ -41,19 +41,10 @@
     
 
 
-    <!-- http://www.semanticweb.org/PartDescriptionExample#freq-MaX- -->
+    <!-- http://www.semanticweb.org/PartDescriptionExample#freq -->
 
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/PartDescriptionExample#freq-MaX-">
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://www.semanticweb.org/PartDescriptionExample#freq-MiN- -->
-
-
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/PartDescriptionExample#freq-MiN-">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/PartDescriptionExample#freq">
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
     </owl:DatatypeProperty>
     
@@ -115,8 +106,8 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/PartDescriptionExample#MOTOR"/>
         <available rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</available>
         <code rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A4-106V</code>
-        <freq-MaX- rdf:datatype="http://www.w3.org/2001/XMLSchema#float">144.0</freq-MaX->
-        <freq-MiN- rdf:datatype="http://www.w3.org/2001/XMLSchema#float">122.0</freq-MiN->
+        <freq rdf:datatype="http://www.w3.org/2001/XMLSchema#float">122.0</freq>
+        <freq rdf:datatype="http://www.w3.org/2001/XMLSchema#float">144.0</freq>
         <pole rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.0</pole>
         <weight rdf:datatype="http://www.w3.org/2001/XMLSchema#float">50.0</weight>
     </owl:NamedIndividual>
@@ -130,8 +121,8 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/PartDescriptionExample#MOTOR"/>
         <available rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</available>
         <code rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A4-128V</code>
-        <freq-MaX- rdf:datatype="http://www.w3.org/2001/XMLSchema#float">155.0</freq-MaX->
-        <freq-MiN- rdf:datatype="http://www.w3.org/2001/XMLSchema#float">130.0</freq-MiN->
+        <freq rdf:datatype="http://www.w3.org/2001/XMLSchema#float">130.0</freq>
+        <freq rdf:datatype="http://www.w3.org/2001/XMLSchema#float">155.0</freq>
         <pole rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.0</pole>
         <weight rdf:datatype="http://www.w3.org/2001/XMLSchema#float">80.0</weight>
     </owl:NamedIndividual>
@@ -145,8 +136,7 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/PartDescriptionExample#MOTOR"/>
         <available rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</available>
         <code rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A4-155V</code>
-        <freq-MaX- rdf:datatype="http://www.w3.org/2001/XMLSchema#float">90.0</freq-MaX->
-        <freq-MiN- rdf:datatype="http://www.w3.org/2001/XMLSchema#float">90.0</freq-MiN->
+        <freq rdf:datatype="http://www.w3.org/2001/XMLSchema#float">90.0</freq>
         <pole rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.0</pole>
         <weight rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.0</weight>
     </owl:NamedIndividual>
@@ -159,8 +149,8 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PartDescriptionExample#4">
         <rdf:type rdf:resource="http://www.semanticweb.org/PartDescriptionExample#MOTOR"/>
         <code rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A4-106V</code>
-        <freq-MaX- rdf:datatype="http://www.w3.org/2001/XMLSchema#float">50.0</freq-MaX->
-        <freq-MiN- rdf:datatype="http://www.w3.org/2001/XMLSchema#float">40.0</freq-MiN->
+        <freq rdf:datatype="http://www.w3.org/2001/XMLSchema#float">40.0</freq>
+        <freq rdf:datatype="http://www.w3.org/2001/XMLSchema#float">50.0</freq>
         <pole rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.0</pole>
         <weight rdf:datatype="http://www.w3.org/2001/XMLSchema#float">30.0</weight>
     </owl:NamedIndividual>

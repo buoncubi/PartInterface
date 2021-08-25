@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 class KernelRangeTest {
-    private static final Range actualRange = new Range(0f,9);
+    private static final Range actualRange = new Range(0,9);
 
     public static Set<OWLFeature<?>> getFeatures(OWLReferences ontoRef) {
         // Define some features (shared to all parts for simplicity).

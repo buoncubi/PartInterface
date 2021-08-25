@@ -24,7 +24,7 @@ public class ExampleInterface {
     private static OWLReferences buildOntology(){
         /*      Configure the system.      */
         OWLReferences ontology = Configurer.createOntology(ONTO_NAME, FILE_PATH);
-        StaticLogger.setLevel(StaticLogger.INFO);
+        StaticLogger.setLevel(StaticLogger.WARNING);
 
         /*      Read CSV file that contains headers (i.e., the features key).
                 Hypothesis: the size of `type`, `header` and each CSV lines is always equal.      */
@@ -103,6 +103,9 @@ public class ExampleInterface {
         ontology.saveOntology();
         OWLReferencesInterface.OWLReferencesContainer.removeInstance(ontology); // Delete (i.e., close) ontology reference and allow to load it again.
         queryAffinity();  // Reload ontology.
+
+        System.out.println("------------------------------------------");
+        OWLReferencesInterface.OWLReferencesContainer.removeInstance(ontology); // Delete (i.e., close) ontology reference and allow to run multiple tests.
     }
 
     @Test
@@ -110,5 +113,8 @@ public class ExampleInterface {
         OWLReferences ontology = buildOntology();
         ontology.synchronizeReasoner();  // It updates the internal reasoner of the ontology. It might take some time.
         queryAffinity(ontology);
+
+        System.out.println("------------------------------------------");
+        OWLReferencesInterface.OWLReferencesContainer.removeInstance(ontology); // Delete (i.e., close) ontology reference and allow to run multiple tests.
     }
 }

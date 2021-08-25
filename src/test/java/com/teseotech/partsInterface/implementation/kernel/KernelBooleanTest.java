@@ -12,16 +12,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 class KernelBooleanTest {
-    private static ArrayList<Float> target = new ArrayList<>();
-
     public static Set<BaseKernel<?,?>> getKernels() {
         Set<BaseKernel<?,?>> kernels = new HashSet<>();
         kernels.add(new KernelBoolean("hasFeature1", true, 5));
-        target.add(1.0f);
         kernels.add(new KernelBoolean("hasFeature2", false, 1));
-        target.add(0.0f);
         kernels.add(new KernelBoolean("hasFeature3", true, 5));
-        target.add(1.0f);
         return kernels;
     }
     public static Set<OWLFeature<?>> getFeatures(OWLReferences ontoRef) {

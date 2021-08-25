@@ -4,6 +4,7 @@ import com.teseotech.partsInterface.implementation.owlInterface.OWLFeature;
 import com.teseotech.partsInterface.implementation.owlInterface.OWLPartTest;
 import com.teseotech.partsInterface.core.BaseKernel;
 import com.teseotech.partsInterface.implementation.Part;
+import com.teseotech.partsInterface.implementation.owlInterface.OWLRangeFeature;
 import com.teseotech.partsInterface.utility.Configurer;
 import it.emarolab.amor.owlInterface.OWLReferences;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,15 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class KernelPointTest {
+    public static Set<OWLFeature<?>> getFeatures(OWLReferences ontoRef) {
+        // Define some features (shared to all parts for simplicity).
+        Set<OWLFeature<?>> features = new HashSet<>();
+        features.add(new OWLFeature<>("hasFeature1", 1, ontoRef));
+        features.add(new OWLFeature<>("hasFeature2", 2L, ontoRef));
+        features.add(new OWLFeature<>("hasFeature3", 3f, ontoRef));
+        return features;
+    }
+
     public static Set<BaseKernel<?,?>> getKernels() {  // Based on `OWLPartTest.getFeatures`
         // Define some features (shared to all parts for simplicity).
         Set<BaseKernel<?,?>> kernels = new HashSet<>();
@@ -37,7 +47,7 @@ public class KernelPointTest {
     public void testAffinity(){
         // Define some features and target kernels.
         OWLReferences ontology = Configurer.createOntology(KernelPointTest.class.getSimpleName(), Configurer.ONTO_TEST_FILE_PATH);
-        Set<OWLFeature<?>> features = OWLPartTest.getFeatures(ontology);
+        Set<OWLFeature<?>> features = getFeatures(ontology);
         Set<BaseKernel<?, ?>> kernels = getKernels();
 
         // For all feature, test the kernel's evaluation.
