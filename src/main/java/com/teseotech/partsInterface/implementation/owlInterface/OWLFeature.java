@@ -17,9 +17,8 @@ public class OWLFeature<F> extends WritableFeature<F> {
     }
     public void setOWLDescriptor(OWLReferences ontology){
         try {
-            FullDataPropertyDesc propDescr = new FullDataPropertyDesc(this.getKey(), ontology);
-            propDescr.readAxioms();
-            this.propDescriptor = propDescr;
+            this.propDescriptor = new FullDataPropertyDesc(this.getKey(), ontology);
+            this.propDescriptor.readAxioms();
         } catch (Exception e){
             StaticLogger.logError("cannot use ontology '" + ontology + "'!");
             e.printStackTrace();
@@ -31,12 +30,12 @@ public class OWLFeature<F> extends WritableFeature<F> {
     }
 
     public boolean isOWLDescriptorInitialised(){
-        return this.propDescriptor == null;
+        return this.propDescriptor != null;
     }
 
     @Override
     public Boolean exists(){ // Used by `AddRemoveChecker.shouldAdd()` and `AddRemoveChecker.shouldRemove()`.
-        if(isOWLDescriptorInitialised()){
+        if(!isOWLDescriptorInitialised()){
             StaticLogger.logError("An OWL feature (i.e.," + this.getKey() + ") not coupled with an ontology!");
             return null;
         }

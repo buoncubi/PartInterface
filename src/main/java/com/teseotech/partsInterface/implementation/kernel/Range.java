@@ -7,17 +7,16 @@ import java.util.Objects;
 enum RangeEval{WITHIN, OVERLAPS, OVERLAPS_MIN, OVERLAPS_MAX, OUTSIDE, UNKNOWN}
 
 public class Range {
-    private Number max;
-    private Number min;
+    private final Number max;
+    private final Number min;
 
-    public Range(Number min, Number max) {
-        this.min = min;
-        this.max = max;
-        if (min.floatValue() > max.floatValue()) {
-            StaticLogger.logWarning("Range cannot have `min > max` values, swapping values!");
-            Number tmp = this.min;
-            this.min = this.max;
-            this.max = tmp;
+    public Range(Number n1, Number n2) {
+        if(n1.floatValue() < n2.floatValue()){
+            this.min = n1;
+            this.max = n2;
+        } else {
+            this.min = n2;
+            this.max = n1;
         }
     }
 
@@ -74,6 +73,6 @@ public class Range {
 
     @Override
     public String toString() {
-        return "[" + min + ',' + max + "]";
+        return min + "-" + max;
     }
 }

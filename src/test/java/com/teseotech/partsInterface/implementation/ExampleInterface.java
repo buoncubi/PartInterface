@@ -24,18 +24,18 @@ public class ExampleInterface {
     private static OWLReferences buildOntology(){
         /*      Configure the system.      */
         OWLReferences ontology = Configurer.createOntology(ONTO_NAME, FILE_PATH);
-        Configurer.setLogging(StaticLogger.INFO);
+        StaticLogger.setLevel(StaticLogger.INFO);
 
         /*      Read CSV file that contains headers (i.e., the features key).
                 Hypothesis: the size of `type`, `header` and each CSV lines is always equal.      */
-        Class<?>[] types = new Class[]{Long.class, String.class, String.class, Integer.class, Float.class, Boolean.class, Number.class};
-        //CSVFile csv = CSVFile.readCsv(FILE_PATH + "dataExampleHeader.csv", types);
-        //List<Set<OWLFeature<?>>> data = csv.getData();
-
-        // Eventually, the headers can be specified.
+        Class<?>[] types = new Class[]{Long.class, String.class, String.class, Range.class, Float.class, Boolean.class, Number.class};
         String[] header = new String[]{"id", "TYPE", "code", "freq", "weight", "available", "pole"};
         CSVFile csv = CSVFile.readCsv(FILE_PATH + "dataExampleNoHeader.csv", ",", types, header);
         List<Set<OWLFeature<?>>> data = csv.getData();
+        // Eventually, the headers can be read from the CSV file.
+        //CSVFile csv = CSVFile.readCsv(FILE_PATH + "dataExampleHeader.csv", types);
+        //List<Set<OWLFeature<?>>> data = csv.getData();
+
 
         /*      Create an ontology and store each part.      */
         // An error will occur if pulled feature are not available for all parts.
@@ -85,13 +85,15 @@ public class ExampleInterface {
         }
     }
 
-
     public static List<KernelPointParam> getKernelPointParams() {
         // The `parameters` should be ordered by their `value` and their `degree` should be in [0,1]!
         List<KernelPointParam> params = new ArrayList<>();
-        params.add(new KernelPointParam(-1,0));
-        params.add(new KernelPointParam(0,1));
-        params.add(new KernelPointParam(1,0));
+        params.add(new KernelPointParam( -1f,0f));
+        params.add(new KernelPointParam(-.8f,0.5f));
+        params.add(new KernelPointParam(-.3f,1f));
+        params.add(new KernelPointParam( .2f,1f));
+        params.add(new KernelPointParam(-.8f,0.4f));
+        params.add(new KernelPointParam(  1f,0f));
         return params;
     }
 

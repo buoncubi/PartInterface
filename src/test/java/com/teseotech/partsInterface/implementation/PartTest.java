@@ -20,7 +20,7 @@ class PartTest {
         // Define some features (shared to all parts for simplicity).
         Set<BaseKernel<?,?>> kernels = new HashSet<>();
         kernels.add(new KernelRange("hasFeature1", new Range(0,5)));
-        kernels.add(new KernelPoint("hasFeature2", 2f, getKernelParams()));
+        kernels.add(new KernelPoint("hasFeature2", 2L, getKernelParams()));
         kernels.add(new KernelPoint("hasFeature3", 3f, getKernelParams()));
         kernels.add(new KernelString("hasFeature4", "f4"));
         kernels.add(new KernelBoolean("hasFeature5", true));
@@ -44,7 +44,7 @@ class PartTest {
         for(Part p: parts){
             Affinity affinity = p.queryAffinity(getKernels());
             System.out.println("Affinities found (partId, affinityDegree): " + affinity
-                    + ". You should check manually that te results are correct!");
+                    + ". You should check manually that te results are correct!");  // Should all affinities be one?
         }
     }
 }

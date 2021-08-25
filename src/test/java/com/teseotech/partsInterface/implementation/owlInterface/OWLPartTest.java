@@ -2,7 +2,9 @@ package com.teseotech.partsInterface.implementation.owlInterface;
 
 import com.teseotech.partsInterface.core.BasePart;
 import com.teseotech.partsInterface.implementation.Part;
+import com.teseotech.partsInterface.implementation.kernel.Range;
 import com.teseotech.partsInterface.utility.Configurer;
+import com.teseotech.partsInterface.utility.StaticLogger;
 import it.emarolab.amor.owlInterface.OWLReferences;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +16,7 @@ public class OWLPartTest {
     public static Set<OWLFeature<?>> getFeatures(OWLReferences ontoRef) {
         // Define some features (shared to all parts for simplicity).
         Set<OWLFeature<?>> features = new HashSet<>();
-        features.add(new OWLFeature<>("hasFeature1", 1, ontoRef));
+        features.add(new OWLRangeFeature("hasFeature1", new Range(2,3), ontoRef));
         features.add(new OWLFeature<>("hasFeature2", 2L, ontoRef));
         features.add(new OWLFeature<>("hasFeature3", 3f, ontoRef));
         features.add(new OWLFeature<>("hasFeature4", "F4", ontoRef));
@@ -24,6 +26,8 @@ public class OWLPartTest {
 
     @Test
     void addRemovePart() {
+        StaticLogger.setLevel(StaticLogger.VERBOSE);
+
         OWLReferences ontology = Configurer.createOntology(OWLPartTest.class.getSimpleName(), Configurer.ONTO_TEST_FILE_PATH);
         Set<OWLFeature<?>> featurs = getFeatures(ontology);
 
@@ -51,9 +55,9 @@ public class OWLPartTest {
                 "You should check that it represents only the '" + p1.getID() + "' part.");
     }
 
-    @Test
+    /*@Test
     public void createIdentifier(){
         for(int i = 0; i < 100; i++)
             System.out.println(BasePart.createIdentifier());
-    }
+    }*/
 }

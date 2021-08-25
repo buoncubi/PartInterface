@@ -1,6 +1,8 @@
 package com.teseotech.partsInterface.utility;
 
+import com.teseotech.partsInterface.implementation.kernel.Range;
 import com.teseotech.partsInterface.implementation.owlInterface.OWLFeature;
+import com.teseotech.partsInterface.implementation.owlInterface.OWLRangeFeature;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -60,20 +62,31 @@ public class CSVFile {
     private OWLFeature<?> castData(String key, String data, Class<?> type) {
         key = removeUTF8(key.trim());
         data = removeUTF8(data.trim());
-        if (type == Boolean.class)
+        if(type == Boolean.class)
             return new OWLFeature<>(key, Boolean.valueOf(data));
-        if (type == Integer.class)
+        if(type == Integer.class)
             return new OWLFeature<>(key, Integer.valueOf(data));
-        if (type == Float.class)
+        if(type == Float.class)
             return new OWLFeature<>(key, Float.valueOf(data));
-        if (type == Double.class)
+        if(type == Double.class)
             return new OWLFeature<>(key, Double.valueOf(data));
-        if (type == Long.class)
+        if(type == Long.class)
             return new OWLFeature<>(key, Long.valueOf(data));
-        if (type == String.class)
-            return new OWLFeature<>(key, data);
+        if(type == String.class)
+            return new OWLFeature<>(key, data.replaceAll("\"","").replaceAll("'",""));
+        if(type == Range.class)
+            return new OWLRangeFeature(key, parseRange(data));
+        if(type == Number.class)
+            return new OWLFeature<>(key, Float.valueOf(data));
         StaticLogger.logError("Cannot parse data " + data + "(key: " + key + ") with type " + type);
-        return new OWLFeature<>(key, data);
+        return new OWLFeature<>(key, data.replaceAll("\"","").replaceAll("'",""));
+    }
+
+    private Range parseRange(String rangeStr){
+        String[] split = rangeStr.split("-", 2);
+        if(split.length == 1)
+            return new Range(Float.valueOf(split[0]), Float.valueOf(split[0]));
+        return new Range(Float.valueOf(split[0]), Float.valueOf(split[1]));
     }
 
     public static String removeUTF8(String s) {

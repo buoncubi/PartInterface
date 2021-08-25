@@ -1,6 +1,8 @@
 package com.teseotech.partsInterface.utility;
 
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class StaticLogger{
     // StaticLogger is not constructable.
@@ -17,6 +19,16 @@ public class StaticLogger{
     public static void setLevel(int level){
         actualLevel = level;
     }
+    /*public static void setGlobalLevel(int logging) {  // Attempt to get logs from dependencies.
+        StaticLogger.setLevel(logging);  // SEVERE (i.e., error), WARNING, INFO, FINE (i.e., verbose debug).
+        Logger logger = Logger.getLogger("");
+        switch (logging){
+            case StaticLogger.VERBOSE:  logger.setLevel(Level.FINE);    break;
+            case StaticLogger.INFO:     logger.setLevel(Level.INFO);    break;
+            case StaticLogger.WARNING:  logger.setLevel(Level.WARNING); break;
+            case StaticLogger.ERROR:    logger.setLevel(Level.SEVERE);  break;
+        }
+    }*/
 
     // Logging Methods.
     static public void logVerbose(String content){
@@ -44,11 +56,11 @@ public class StaticLogger{
     }
     static private String level2str(int level){
         switch (level){
-            case VERBOSE: return " VERBOSE:  ";
-            case INFO:    return "    INFO:  ";
-            case WARNING: return " WARNING:  ";
-            case ERROR:   return "   ERROR:  ";
-            default:      return "     ???:  ";
+            case VERBOSE: return "\tVERBOSE:  ";
+            case INFO:    return "\t   INFO:  ";
+            case WARNING: return "\tWARNING:  ";
+            case ERROR:   return "\t  ERROR:  ";
+            default:      return "\t    ???:  ";
         }
     }
 }

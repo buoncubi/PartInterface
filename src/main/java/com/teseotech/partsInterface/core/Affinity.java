@@ -6,7 +6,6 @@ import java.util.Objects;
 public class Affinity {
     private final float degree;
     private final String identifier;
-    // todo add more evaluation details
 
     public Affinity(float degree, String id){
         this.degree = degree;

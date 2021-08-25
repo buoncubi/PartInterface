@@ -1,20 +1,21 @@
 package com.teseotech.partsInterface.implementation.owlInterface;
 
 import com.teseotech.partsInterface.core.BasePart;
+import com.teseotech.partsInterface.implementation.kernel.Range;
 import com.teseotech.partsInterface.utility.StaticLogger;
 import com.teseotech.partsInterface.implementation.Part;
 import it.emarolab.amor.owlInterface.OWLReferences;
 import it.emarolab.owloop.descriptor.construction.descriptorEntitySet.DataLinks;
+import it.emarolab.owloop.descriptor.construction.descriptorEntitySet.Literals;
 import it.emarolab.owloop.descriptor.utility.classDescriptor.FullClassDesc;
 import it.emarolab.owloop.descriptor.utility.individualDescriptor.FullIndividualDesc;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
-// Hypothesis1: all the `Features` of a part as a unique `key`.  // todo make it inconsistent in the ontology?
-// Hypothesis2: each instance of `Part` has a single annotation, which is added by this app.
 public abstract class OWLPart extends BasePart<OWLFeature<?>> {
     private final String partType;
     static private boolean LOG_FEATURE_ADDING = true;
@@ -65,7 +66,11 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
         if(this.shouldAdd(LOG_FEATURE_ADDING)) {
             for (OWLFeature<?> f : this.getFeatures()) {
                 f.addFeature();  // It might make some changes to the TBox.
-                this.indDescriptor.addData(f.getKey(), f.getValue());
+                if(f instanceof OWLRangeFeature) {
+                    OWLRangeFeature rf = (OWLRangeFeature) f;
+                    this.indDescriptor.addData(rf.getKey(), rf.getValue().getMin());
+                    this.indDescriptor.addData(rf.getKey(), rf.getValue().getMax());
+                } else this.indDescriptor.addData(f.getKey(), f.getValue());
             }
             this.indDescriptor.writeAxioms();
         }
@@ -92,11 +97,11 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
         return  getID()  + ':' + partType + "->" + getFeatures();
     }
 
-    static public void setLogFeatureAdding(boolean shouldLog){
+    public static void setLogFeatureAdding(boolean shouldLog){
         LOG_FEATURE_ADDING = shouldLog;
     }
 
-    static public Set<Part> readParts(String partType, OWLReferences ontology){
+    public static Set<Part> readParts(String partType, OWLReferences ontology){
         // Find all IDs of the parts with a given type (e.g., "MOTOR").
         FullClassDesc clsDescr = new FullClassDesc(partType, ontology);
         clsDescr.readAxioms();
@@ -107,33 +112,59 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
         // find the Features related to each part.
         Set<Part> parts = new HashSet<>();
         for(String id: partsId){
-            FullIndividualDesc p = new FullIndividualDesc(id, ontology);
+            FullIndividualDesc p = new FullIndividualDesc(id, ontology);  // TODO use dedicated descriptor.
             p.readAxioms();
             Set<OWLFeature<?>> features = new HashSet<>();
-            for( DataLinks d: p.getDataProperties()){
+            for(DataLinks d: p.getDataProperties()){
                 String key = ontology.getOWLObjectName(d.getExpression());
-                Object value = null;
-                for(OWLLiteral v: d.getValues()){
-                    if(v.getDatatype().isDouble())
-                        value = v.parseDouble();
-                    else if(v.getDatatype().isFloat())
-                        value = v.parseFloat();
-                    else if(v.getDatatype().isInteger())
-                        value = v.parseInteger();
-                    else if(v.getDatatype().isString())
-                        value = v.getLiteral();
-                    else if(v.getDatatype().toString().equals("xsd:long"))
-                        value = new Long(v.getLiteral());
-                    else if(v.isBoolean())
-                        value = v.parseBoolean();
-                    if(value == null)
-                        StaticLogger.logError("Cannot parse value " + v + ".");
-                    break;  // Hypothesis: each feature of a part has a unique `key`.
-                }
-                features.add(new OWLFeature<>(key, value, ontology));
+                int valueNumber = d.getValues().size();
+                if(valueNumber == 1) {  // Manage primitive feature values.
+                    Object value = readPrimitiveFeature(d.getValues().iterator().next());
+                    features.add(new OWLFeature<>(key, value, ontology));
+                } else if(valueNumber == 2){  // Manage ranges feature values
+                    Iterator<OWLLiteral> it = d.getValues().iterator();
+                    Range value = readRangeFeature(it.next(), it.next());
+                    features.add(new OWLRangeFeature(key, value, ontology));
+                } else StaticLogger.logError("Cannot read part (i.e., " + p.getGroundInstanceName() + ") with " + valueNumber + " equal features.");
+
             }
             parts.add(new Part(id, "MOTOR", features, ontology));
         }
         return parts;
+    }
+    private static Object readPrimitiveFeature(OWLLiteral v){
+        if (v.getDatatype().isDouble())
+            return v.parseDouble();
+        else if (v.getDatatype().isFloat())
+            return v.parseFloat();
+        else if (v.getDatatype().isInteger())
+            return v.parseInteger();
+        else if (v.getDatatype().isString())
+            return v.getLiteral();
+        else if (v.getDatatype().toString().equals("xsd:long"))
+            return Long.valueOf(v.getLiteral());
+        else if (v.isBoolean())
+            return v.parseBoolean();
+        StaticLogger.logError("Cannot parse value " + v + ".");
+        return null;
+    }
+    private static Range readRangeFeature(OWLLiteral literal1, OWLLiteral literal2){
+        Float v1 = readOneRangeFeature(literal1);
+        Float v2 = readOneRangeFeature(literal2);
+        if(v1 != null & v2 != null)
+            return new Range(v1, v2);
+        StaticLogger.logError("Cannot parse range values " + literal1 + ", " + literal2 + '.');
+        return null;
+    }
+    private static Float readOneRangeFeature(OWLLiteral literal){
+        if (literal.getDatatype().isDouble())
+            return ((Double) literal.parseDouble()).floatValue();
+        else if (literal.getDatatype().isFloat())
+            return literal.parseFloat();
+        else if (literal.getDatatype().isInteger())
+            return  ((Integer) literal.parseInteger()).floatValue();
+        else if (literal.getDatatype().toString().equals("xsd:long"))
+            return Long.valueOf(literal.getLiteral()).floatValue();
+        return null;
     }
 }
