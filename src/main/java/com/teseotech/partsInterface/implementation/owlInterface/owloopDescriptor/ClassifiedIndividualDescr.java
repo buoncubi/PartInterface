@@ -1,10 +1,9 @@
-package com.teseotech.partsInterface.utility.owloopDescriptor;
+package com.teseotech.partsInterface.implementation.owlInterface.owloopDescriptor;
 
 import it.emarolab.amor.owlInterface.OWLReferences;
 import it.emarolab.owloop.descriptor.construction.descriptorEntitySet.Individuals;
 import it.emarolab.owloop.descriptor.construction.descriptorExpression.ClassExpression;
 import it.emarolab.owloop.descriptor.construction.descriptorGround.ClassGround;
-import it.emarolab.owloop.descriptor.utility.individualDescriptor.LinkIndividualDesc;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 

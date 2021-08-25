@@ -32,7 +32,7 @@ public class ExampleInterface {
         String[] header = new String[]{"id", "TYPE", "code", "freq", "weight", "available", "pole"};
         CSVFile csv = CSVFile.readCsv(FILE_PATH + "dataExampleNoHeader.csv", ",", types, header);
         List<Set<OWLFeature<?>>> data = csv.getData();
-        // Eventually, the headers can be read from the CSV file.
+        // Eventually, the headers can be read from the CSV file (to test uncomment below and comment 2 lines above).
         //CSVFile csv = CSVFile.readCsv(FILE_PATH + "dataExampleHeader.csv", types);
         //List<Set<OWLFeature<?>>> data = csv.getData();
 
@@ -71,15 +71,16 @@ public class ExampleInterface {
         for(Part p: parts){
             Affinity affinity = p.queryAffinity(kernels);
             affinities.add(affinity);
-            System.out.println("Affinities found (partId, affinityDegree): " + affinity);
+            System.out.println("Affinity with (partId, affinityDegree)->" + affinity + '.');
         }
 
-        /*      Retrieve best part.      */
+        /*      Retrieve the best part.      */
         BasePart.sortAffinities(affinities);
         Affinity bestMatch = affinities.get(affinities.size() - 1);
         for(Part p: parts){
             if(p.getID().equals(bestMatch.getID())) {
-                System.out.println("The best part is: " + p + " with a degree of " + String.format("%.1f",bestMatch.getDegree() * 100) + "%.");
+                System.out.println("The best part is: " + p + " with a degree of "
+                        + String.format("%.1f",bestMatch.getDegree() * 100) + "%.");
                 break;
             }
         }

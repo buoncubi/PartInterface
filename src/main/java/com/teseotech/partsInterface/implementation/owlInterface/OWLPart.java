@@ -2,9 +2,9 @@ package com.teseotech.partsInterface.implementation.owlInterface;
 
 import com.teseotech.partsInterface.core.BasePart;
 import com.teseotech.partsInterface.implementation.kernel.Range;
-import com.teseotech.partsInterface.utility.owloopDescriptor.ClassifiedIndividualDescr;
-import com.teseotech.partsInterface.utility.owloopDescriptor.IndividualDataDescr;
-import com.teseotech.partsInterface.utility.owloopDescriptor.PartIndividualDescr;
+import com.teseotech.partsInterface.implementation.owlInterface.owloopDescriptor.ClassifiedIndividualDescr;
+import com.teseotech.partsInterface.implementation.owlInterface.owloopDescriptor.IndividualDataDescr;
+import com.teseotech.partsInterface.implementation.owlInterface.owloopDescriptor.PartIndividualDescr;
 import com.teseotech.partsInterface.utility.StaticLogger;
 import com.teseotech.partsInterface.implementation.Part;
 import it.emarolab.amor.owlInterface.OWLReferences;

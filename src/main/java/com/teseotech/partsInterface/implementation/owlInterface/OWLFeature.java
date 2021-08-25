@@ -1,6 +1,6 @@
 package com.teseotech.partsInterface.implementation.owlInterface;
 
-import com.teseotech.partsInterface.utility.owloopDescriptor.FeaturePropertyDescr;
+import com.teseotech.partsInterface.implementation.owlInterface.owloopDescriptor.FeaturePropertyDescr;
 import com.teseotech.partsInterface.utility.StaticLogger;
 import com.teseotech.partsInterface.core.WritableFeature;
 import it.emarolab.amor.owlInterface.OWLReferences;
