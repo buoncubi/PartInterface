@@ -3,6 +3,7 @@ package com.teseotech.partsInterface.core;
 import com.teseotech.partsInterface.utility.AddRemoveChecker;
 import com.teseotech.partsInterface.utility.StaticLogger;
 
+import java.util.List;
 import java.util.Set;
 
 // the interface to add instances and query affinity.
@@ -43,6 +44,10 @@ public abstract class BasePart<F extends BaseFeature<?>> implements AddRemoveChe
     @Override
     public String toString() {
         return  getID()  + "->" + features;
+    }
+
+    public static void sortAffinities(List<Affinity> affinities){
+        affinities.sort((o1, o2) -> Float.compare(o1.getDegree(), (o2.getDegree())));
     }
 
     // Generate Part identifier based on timestamp.

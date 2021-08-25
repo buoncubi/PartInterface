@@ -11,29 +11,23 @@ public class CSVFile {
     private final Class<?>[] types;
     private final List<Set<OWLFeature<?>>> data = new ArrayList<>();
 
-    public CSVFile(String filePath, Class<?>[] types) {
-        this.types = types;
-        this.setCSVdata(filePath, ";", null);
-    }
-
     public CSVFile(String filePath, String columnDelimiter, Class<?>[] types) {
         this.types = types;
-        this.setCSVdata(filePath, columnDelimiter, null);
+        this.setCSVData(filePath, columnDelimiter, null);
     }
-
     public CSVFile(String filePath, String columnDelimiter, Class<?>[] types, String[] header) {
         this.types = types;
-        this.setCSVdata(filePath, columnDelimiter, header);
+        this.setCSVData(filePath, columnDelimiter, header);
     }
 
-    private void setCSVdata(String filePath, String columnsDelimiter, String[] givenHeader) {
-        String line = "";
+    private void setCSVData(String filePath, String columnsDelimiter, String[] givenHeader) {
         boolean headerFound = false; // Hypothesis: the first file should be the header (if the latter is not given as input parameter).
         String[] header = givenHeader;
         if (header != null)
             headerFound = true;
         try {
             BufferedReader br = new BufferedReader(new FileReader(filePath));
+            String line;
             while ((line = br.readLine()) != null) {
                 String[] parsed = line.split(columnsDelimiter);
                 //ArrayList<String> subOut = new ArrayList<>(Arrays.asList(parsed));
@@ -49,8 +43,10 @@ public class CSVFile {
                                 + "header.length=" + header.length + " raw.length=" + parsed.length + " type.length=" + types.length);
                     final Set<OWLFeature<?>> rowFeatures = new HashSet<>();
                     for (int i = 0; i < parsed.length; i++) {
-                        final OWLFeature<?> csvRow = castData(header[i], parsed[i], types[i]);
-                        rowFeatures.add(csvRow);
+                        if(!parsed[i].isEmpty()) {
+                            final OWLFeature<?> csvData = castData(header[i], parsed[i], types[i]);
+                            rowFeatures.add(csvData);
+                        }
                     }
                     data.add(rowFeatures);
                 }
@@ -107,7 +103,7 @@ public class CSVFile {
     }
 
     public static CSVFile readCsv(String filePath, Class<?>[] types){
-        return new CSVFile(filePath, ";", types);
+        return new CSVFile(filePath, ",", types);
     }
     public static CSVFile readCsv(String filePath, String columnsDelimiter, Class<?>[] types){
         return new CSVFile(filePath, columnsDelimiter, types);

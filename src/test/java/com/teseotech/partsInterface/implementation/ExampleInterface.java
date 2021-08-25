@@ -2,20 +2,18 @@ package com.teseotech.partsInterface.implementation;
 
 import com.teseotech.partsInterface.core.Affinity;
 import com.teseotech.partsInterface.core.BaseKernel;
+import com.teseotech.partsInterface.core.BasePart;
 import com.teseotech.partsInterface.implementation.kernel.*;
 import com.teseotech.partsInterface.implementation.owlInterface.OWLFeature;
 import com.teseotech.partsInterface.implementation.owlInterface.OWLPart;
 import com.teseotech.partsInterface.utility.CSVFile;
 import com.teseotech.partsInterface.utility.Configurer;
+import com.teseotech.partsInterface.utility.StaticLogger;
 import it.emarolab.amor.owlInterface.OWLReferences;
 import it.emarolab.amor.owlInterface.OWLReferencesInterface;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
+import java.util.*;
 
 public class ExampleInterface {
     private ExampleInterface(){}  // Not instantiable.
@@ -26,20 +24,21 @@ public class ExampleInterface {
     private static OWLReferences buildOntology(){
         /*      Configure the system.      */
         OWLReferences ontology = Configurer.createOntology(ONTO_NAME, FILE_PATH);
-        Configurer.setLogging(Level.INFO);
+        Configurer.setLogging(StaticLogger.INFO);
 
         /*      Read CSV file that contains headers (i.e., the features key).
                 Hypothesis: the size of `type`, `header` and each CSV lines is always equal.      */
-        Class<?>[] types = new Class[]{Long.class, String.class, String.class, Integer.class, Float.class};
-        CSVFile csv = CSVFile.readCsv(FILE_PATH + "dataExampleHeader.csv", types);
-        List<Set<OWLFeature<?>>> data = csv.getData();
+        Class<?>[] types = new Class[]{Long.class, String.class, String.class, Integer.class, Float.class, Boolean.class, Number.class};
+        //CSVFile csv = CSVFile.readCsv(FILE_PATH + "dataExampleHeader.csv", types);
+        //List<Set<OWLFeature<?>>> data = csv.getData();
 
         // Eventually, the headers can be specified.
-        //String[] header = new String[]{"id", "code", "freq"};
-        //CSVFile csv = Utility.readCsv(FILE_PATH + "dataExampleNoHeader.csv", ";", types, header);
-        //Set<Set<OWLFeature<?>>> data = csv.getData();
+        String[] header = new String[]{"id", "TYPE", "code", "freq", "weight", "available", "pole"};
+        CSVFile csv = CSVFile.readCsv(FILE_PATH + "dataExampleNoHeader.csv", ",", types, header);
+        List<Set<OWLFeature<?>>> data = csv.getData();
 
         /*      Create an ontology and store each part.      */
+        // An error will occur if pulled feature are not available for all parts.
         List<String> ids = csv.pullFeature("id");   // Get the `ID` from the CSV (or give it explicitly in `new Part(...)`
         List<String> partTypes = csv.pullFeature("TYPE");  // Get the `PartType` from the CSV (or give it explicitly in `new Part(...)`
         for(int i = 0; i < data.size(); i++){
@@ -60,16 +59,32 @@ public class ExampleInterface {
         /*      Create kernels for evaluation.      */
         Set<BaseKernel<?,?>> kernels = new HashSet<>();
         // The feature key are based on a sub set of the csv header.
-        kernels.add(new KernelRange("freq", new Range(0,260)));
-        kernels.add(new KernelPoint("weight", 80f, getKernelPointParams()));
+        kernels.add(new KernelRange("freq", new Range(0,260), 2));
+        kernels.add(new KernelPoint("weight", 80f, getKernelPointParams(), 1));
         kernels.add(new KernelString("code", "A4-106V"));
+        kernels.add(new KernelBoolean("available", true));
+        // Note that the `pole` feature is not considered in any kernels.
+        // kernels.add(new KernelRange("???", new Range(0,1)));  // The related feature do not exists in the CSV! It will generate a warning.
 
         /*      Evaluate Affinity.      */
+        List<Affinity> affinities = new ArrayList<>();
         for(Part p: parts){
             Affinity affinity = p.queryAffinity(kernels);
+            affinities.add(affinity);
             System.out.println("Affinities found (partId, affinityDegree): " + affinity);
         }
+
+        /*      Retrieve best part.      */
+        BasePart.sortAffinities(affinities);
+        Affinity bestMatch = affinities.get(affinities.size() - 1);
+        for(Part p: parts){
+            if(p.getID().equals(bestMatch.getID())) {
+                System.out.println("The best part is: " + p + " with a degree of " + (bestMatch.getDegree() * 100) + "%.");
+                break;
+            }
+        }
     }
+
 
     public static List<KernelPointParam> getKernelPointParams() {
         // The `parameters` should be ordered by their `value` and their `degree` should be in [0,1]!
@@ -82,17 +97,16 @@ public class ExampleInterface {
 
     @Test
     public void testByClosingOnto(){
-        OWLReferences ontology = buildOntology();
+        OWLReferences ontology = buildOntology();  // Creates ontology.
         ontology.saveOntology();
         OWLReferencesInterface.OWLReferencesContainer.removeInstance(ontology); // Delete (i.e., close) ontology reference and allow to load it again.
-        queryAffinity();
+        queryAffinity();  // Reload ontology.
     }
 
     @Test
     public void testWithRuntimeOnto(){
         OWLReferences ontology = buildOntology();
-        ontology.synchronizeReasoner();
+        ontology.synchronizeReasoner();  // It updates the internal reasoner of the ontology. It might take some time.
         queryAffinity(ontology);
     }
-
 }

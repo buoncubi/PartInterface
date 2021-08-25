@@ -31,7 +31,7 @@ public class Part extends OWLPart {
                     sum += k.getWeight() * eval;
                     cnt += k.getWeight();
                 }
-            }else StaticLogger.logWarning("Target " + k + " not found in " + getFeatures() + '.');
+            }else StaticLogger.logWarning("Target " + k.toDescription() + " not found in " + getFeatures() + '.');
         }
         float weightedAvg = sum/cnt;
         return new Affinity(weightedAvg, this.getID());

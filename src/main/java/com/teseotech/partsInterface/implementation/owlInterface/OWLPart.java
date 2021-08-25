@@ -64,7 +64,7 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
     public void addInstance() {
         if(this.shouldAdd(LOG_FEATURE_ADDING)) {
             for (OWLFeature<?> f : this.getFeatures()) {
-                f.addFeature();  // It might make some changes to the TBox. // todo add flag to disable it and make example to add them through `Features`
+                f.addFeature();  // It might make some changes to the TBox.
                 this.indDescriptor.addData(f.getKey(), f.getValue());
             }
             this.indDescriptor.writeAxioms();

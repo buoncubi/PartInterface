@@ -54,6 +54,9 @@ public abstract class BaseKernel<V,P> extends BaseFeature<V> {
         return this.getClass().getSimpleName() + "(w:" + weight + ")"; // + parameters;
     }
     public String toDescription() {
-        return this.getClass().getSimpleName() + "(w:" + weight + ", v:" + getValue() + ", k:" + getKey() + ", p:" + parameters + ')';
+        String paramLog = "";
+        if(parameters != null)
+            paramLog = ", p:" + parameters;
+        return this.getClass().getSimpleName() + "(w:" + weight + ", <" + getKey() + ':' + getValue() + '>' + paramLog + ')';
     }
 }

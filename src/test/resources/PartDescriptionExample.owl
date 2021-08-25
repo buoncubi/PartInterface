@@ -135,7 +135,6 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PartDescriptionExample#5">
         <rdf:type rdf:resource="http://www.semanticweb.org/PartDescriptionExample#MOTOR"/>
         <code rdf:datatype="http://www.w3.org/2001/XMLSchema#string">F4-1130V</code>
-        <freq rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">117</freq>
         <weight rdf:datatype="http://www.w3.org/2001/XMLSchema#float">70.0</weight>
     </owl:NamedIndividual>
 </rdf:RDF>

@@ -1,57 +1,54 @@
 package com.teseotech.partsInterface.utility;
 
-import java.util.logging.*;
+import java.text.SimpleDateFormat;
 
 public class StaticLogger{
-    private static Logger logger = null;
+    // StaticLogger is not constructable.
+    private StaticLogger(){}
 
-    private StaticLogger(){} // StaticLogger is not constructable
+    // Constants.
+    public static final int VERBOSE = 0;
+    public static final int INFO = 1;
+    public static final int WARNING = 2;
+    public static final int ERROR = 3;
 
-    static public void setLogger(Level level){
-        logger = configure(level);
-    }
-    private static Logger configure(Level level) {
-        final Logger logger = Logger.getLogger("");
-        try {
-            /*// Load a properties file from class path that way can't be achieved with java.util.logging.config.file
-            final LogManager logManager = LogManager.getLogManager();
-            try (final InputStream is = getClass().getResourceAsStream("/logging.properties"))
-                logManager.readConfiguration(is);*/
-
-            // Programmatic configuration
-            System.setProperty("java.util.logging.SimpleFormatter.format",
-                    "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS.%1$tL %4$-7s %5$s %6$s%n");  // ... %4$-7s [%3$s] (%2$s) %5$s %6$s%n");
-
-            final ConsoleHandler consoleHandler = new ConsoleHandler();
-            consoleHandler.setLevel(level);
-            consoleHandler.setFormatter(new SimpleFormatter());
-
-            logger.setLevel(level);
-            for(Handler h: Logger.getLogger("").getHandlers())
-                logger.removeHandler(h);  // clear all header to print only once (this is a rough simplification).
-            logger.addHandler(consoleHandler);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return StaticLogger.logger;
-        }
-        return logger;
+    // Initialisation and Configurations
+    private static int actualLevel = WARNING;
+    public static void setLevel(int level){
+        actualLevel = level;
     }
 
-    static public void log(Level level, String content){
-        if(logger != null)
-            logger.log(level, content);
-        else System.out.println( level.getName() + ":\t" + content);
-    }
+    // Logging Methods.
     static public void logVerbose(String content){
-        log(Level.FINE, content);
+        log(VERBOSE, content);
     }
     static public void logInfo(String content){
-        log(Level.INFO, content);
+        log(INFO, content);
     }
     static public void logWarning(String content){
-        log(Level.WARNING, content);
+        log(WARNING, content);
     }
     static public void logError(String content){
-        log(Level.SEVERE, content);
+        log(ERROR, content);
+    }
+
+
+    // Utilities.
+    static private void log(int level, String content){
+        if(level >= actualLevel)
+            System.out.println(now() + level2str(level) + content);
+    }
+    static private String now(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.S");
+        return sdf.format(System.currentTimeMillis());
+    }
+    static private String level2str(int level){
+        switch (level){
+            case VERBOSE: return " VERBOSE:  ";
+            case INFO:    return "    INFO:  ";
+            case WARNING: return " WARNING:  ";
+            case ERROR:   return "   ERROR:  ";
+            default:      return "     ???:  ";
+        }
     }
 }

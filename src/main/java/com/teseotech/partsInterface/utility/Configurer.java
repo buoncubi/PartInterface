@@ -1,6 +1,5 @@
 package com.teseotech.partsInterface.utility;
 
-import com.teseotech.partsInterface.utility.StaticLogger;
 import it.emarolab.amor.owlInterface.OWLReferences;
 import it.emarolab.owloop.core.Axiom;
 
@@ -11,12 +10,12 @@ public class Configurer {
 
     public static final String ONTO_TEST_FILE_PATH = "src/test/resources/";
     static {
-        setLogging(Level.INFO);
+        setLogging(StaticLogger.INFO);
         Axiom.Descriptor.OntologyReference.activateAMORlogging(false); // Disabling OWLOOP and aMOE logs.
     }
 
-    public static void setLogging(Level logging) {
-        StaticLogger.setLogger(logging);  // SEVERE (i.e., error), WARNING, INFO, FINE (i.e., verbose debug).
+    public static void setLogging(int logging) {
+        StaticLogger.setLevel(logging);  // SEVERE (i.e., error), WARNING, INFO, FINE (i.e., verbose debug).
     }
 
     public static OWLReferences createOntology(String ontoName, String filepath) {
