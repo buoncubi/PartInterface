@@ -2,8 +2,12 @@ package com.teseotech.partsInterface.core;
 
 import com.teseotech.partsInterface.utility.StaticLogger;
 
-// The interface to define and evaluate features.
-// See the definition of `F` and `P` in `Feature` and `Target` respectively.
+/*
+ * It is the class that represents a target `BaseFeature<V>`, and it defines the `evalute()`
+ * function to compare the target with another `Feature<?>` instance, i.e., the actual value.
+ * it defines a possible parameter of the generic type `P`, which can be used during evaluation.
+ * Also, it encodes a `weight` that will be used by `Part.evaluateAffinity()`, which by default is set to 1.
+ */
 public abstract class BaseKernel<V,P> extends BaseFeature<V> {
     private final P parameters;
     private final float weight;
@@ -19,13 +23,14 @@ public abstract class BaseKernel<V,P> extends BaseFeature<V> {
         this.weight = weight;
     }
 
-    // intended to be used while evaluating `Part.queryAffinity()`.
-    abstract public <X extends BaseFeature<?>> Float evaluateChecked(X actual);  // The returning value should be in [0,1]; `null` is given in case of issues.
-    public <X extends BaseFeature<?>> Float evaluate(X actual) {  // The returning value should be in [0,1]; `null` is given in case of issues.
+    // The returning value should be in [0,1]; `null` is returned in case of issues. It is invoked by `evaluate()`
+    abstract protected  <X extends BaseFeature<?>> Float evaluateChecked(X actual);
+    // If the Datatypes of the `actual` Feature is consistent with `this` Kernel, It returns the value computed by `evaluateChecked()`.
+    public <X extends BaseFeature<?>> Float evaluate(X actual) {
         Float evaluation = null;
         if(actual != null) {
-            if(this.checkType(actual)) {// Check if the type is consistent.
-                if(this.checkKey(actual)) {   // Check if the key is consistent.
+            if(this.checkType(actual)) {  // Check if the type is consistent.
+                if(this.checkKey(actual)) {  // Check if the key is consistent.
                     evaluation = evaluateChecked(actual);
                     if(evaluation < 0 | evaluation > 1)
                         StaticLogger.logWarning("Kernel evaluation of " + this + "is out of [0,1] bounds!");
@@ -52,9 +57,9 @@ public abstract class BaseKernel<V,P> extends BaseFeature<V> {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "(w:" + weight + ")"; // + parameters;
+        return this.getClass().getSimpleName() + "(w:" + weight + ")";
     }
-    public String toDescription() {
+    public String toDescription() {  // It returns a more complete representation of `this` object than `toString()`.
         String paramLog = "";
         if(parameters != null)
             paramLog = ", p:" + parameters;

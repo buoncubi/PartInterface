@@ -7,10 +7,15 @@ import com.teseotech.partsInterface.utility.StaticLogger;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/*
+ * It extends `BaseKernel` to implement a Kernel comparing two Features with a `Number` Datatype.
+ * The comparison is done with a fuzzy membership function defined through a set of points, i.e.,
+ * the parameter `List<KernelPointParam>>`, which must be ordered with an ascending `value`.
+ * The fuzzy function is then represented with a linear interpolation between point, and the
+ * degree given an `actual` Feature value is computed.
+ * This kernel requires at least two point given as parameters.
+ */
 public class KernelPoint extends BaseKernel<Number, List<KernelPointParam>> {
-    // The `parameters` should be ordered by their `value` and their `degree` should be in [0,1]!
-    // This kernel requires at least 2 points as parameters.
     public KernelPoint(String targetKey, Number targetValue, List<KernelPointParam> parameter) {
         super(targetKey, targetValue, parameter);
         checkParameterSize(parameter);
@@ -31,21 +36,23 @@ public class KernelPoint extends BaseKernel<Number, List<KernelPointParam>> {
         // compute distance
         float distance = (actualValue.floatValue() - this.getValue().floatValue()) / this.getValue().floatValue();
 
-        // compute the output based on intervals given as parameters
+        // compute the output based on intervals given as parameters (p0,p1,...pn)
         ArrayList<KernelPointParam> paramCopy = new ArrayList<>(getParameters());
         KernelPointParam p0 = getParameters().get(0);
-        if (distance < p0.getValue())  // If is below the first interval `p0`.
+        // If it is below the first interval `p0`.
+        if (distance < p0.getValue())
             return p0.getDegree();
         else {
             KernelPointParam pn = getParameters().get(getParameters().size() - 1);
-            if (distance > pn.getValue())  // If is above the last interval `pn`.
+            // If it is above the last interval `pn`.
+            if (distance > pn.getValue())
                 return pn.getDegree();
             else {
+                // If it is within an interval p(i-1) (i.e., `pPrevious`) and p(i) (i.e., `pNext`) use linear interpolation.
                 paramCopy.remove(p0);
                 paramCopy.remove(pn);
                 KernelPointParam pPrevous = p0;
                 for(KernelPointParam pNext: paramCopy){
-                    // If is within an interval p(i-1) (i.e., `pPrevious`) and p(i) (i.e., `pNext`) a linear interpolation is used.
                     if(distance >= pPrevous.getValue() & distance < pNext.getValue())
                         return linearInterpolation(distance, pPrevous, pNext);
                     pPrevous = pNext;

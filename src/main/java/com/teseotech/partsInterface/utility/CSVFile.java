@@ -9,21 +9,37 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+/*
+ * A class to parse a CSV file into a `List<Set<OWLFeature<?>>>` retrivable with `getData()'.
+ * Check the README for more information of the structure that the CSV should have.
+ * It implements a `pullFeature()` function to extract Features with a given `key` from `getData()`.
+ */
 public class CSVFile {
+    public static final String DEFAULT_COLUMNS_DELIMETER = ",";
     private final Class<?>[] types;
     private final List<Set<OWLFeature<?>>> data = new ArrayList<>();
 
-    public CSVFile(String filePath, String columnDelimiter, Class<?>[] types) {
+    private CSVFile(String filePath, String columnDelimiter, Class<?>[] types) {
         this.types = types;
         this.setCSVData(filePath, columnDelimiter, null);
+    }
+    private CSVFile(String filePath, Class<?>[] types) {
+        this.types = types;
+        this.setCSVData(filePath, DEFAULT_COLUMNS_DELIMETER, null);
     }
     public CSVFile(String filePath, String columnDelimiter, Class<?>[] types, String[] header) {
         this.types = types;
         this.setCSVData(filePath, columnDelimiter, header);
     }
+    public CSVFile(String filePath, Class<?>[] types, String[] header) {
+        this.types = types;
+        this.setCSVData(filePath, DEFAULT_COLUMNS_DELIMETER, header);
+    }
 
+    // Read the file line by line and parse it as OWLFeatures.
+    // Hypothesis: if the header is not specified, the first line of the file should be the header.
     private void setCSVData(String filePath, String columnsDelimiter, String[] givenHeader) {
-        boolean headerFound = false; // Hypothesis: the first file should be the header (if the latter is not given as input parameter).
+        boolean headerFound = false;
         String[] header = givenHeader;
         if (header != null)
             headerFound = true;
@@ -32,7 +48,6 @@ public class CSVFile {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parsed = line.split(columnsDelimiter);
-                //ArrayList<String> subOut = new ArrayList<>(Arrays.asList(parsed));
                 if (!headerFound) {
                     header = parsed;
                     StaticLogger.logInfo("Read CSV from " + filePath + " with headers: " + Arrays.toString(header));
@@ -89,7 +104,7 @@ public class CSVFile {
         return new Range(Float.valueOf(split[0]), Float.valueOf(split[1]));
     }
 
-    public static String removeUTF8(String s) {
+    private static String removeUTF8(String s) {
         if (s.startsWith("\uFEFF"))
             return s.substring(1);
         return s;
@@ -113,18 +128,5 @@ public class CSVFile {
             }
         }
         return out;
-    }
-
-    public static CSVFile readCsv(String filePath, Class<?>[] types){
-        return new CSVFile(filePath, ",", types);
-    }
-    public static CSVFile readCsv(String filePath, String columnsDelimiter, Class<?>[] types){
-        return new CSVFile(filePath, columnsDelimiter, types);
-    }
-    public static CSVFile readCsv(String filePath, String columnsDelimiter, Class<?>[] types, String[] header){
-        return new CSVFile(filePath, columnsDelimiter, types, header);
-    }
-    public static CSVFile readCsv(String filePath, Class<?>[] types, String[] header){
-        return new CSVFile(filePath, ",", types, header);
     }
 }

@@ -8,6 +8,9 @@ import org.semanticweb.owlapi.model.OWLDataProperty;
 
 import java.util.List;
 
+/*
+ * The OWLOOP descriptor concerning the property defining a Feature with a specific Datatype as OWL Range.
+ */
 public class FeaturePropertyDescr extends DataPropertyGround implements DataPropertyExpression.Range {
 
     private Restrictions rangeRestrictions = new Restrictions();

@@ -9,6 +9,9 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
 import java.util.List;
 
+/*
+ * The OWLOOP descriptor concerning Parts Instance `I` classified in a specified Type, e.g., `MOTOR`.
+ */
 public class ClassifiedIndividualDescr  extends ClassGround
         implements ClassExpression.Instance<IndividualDataDescr> {
 

@@ -4,8 +4,12 @@ import com.teseotech.partsInterface.utility.StaticLogger;
 
 import java.util.Objects;
 
-enum RangeEval{WITHIN, OVERLAPS, OVERLAPS_MIN, OVERLAPS_MAX, OUTSIDE, UNKNOWN}
-
+/*
+ * The class implementing a Feature Datatype representing a `Range`, i.e., an
+ * interval with `min` and `max` limit (treated as `Number`).
+ * It also define the mutual relationships between two `Ranges` in the `checkOverlaps()`
+ * function, which returns an item of the `RangeEval` enumerator.
+ */
 public class Range {
     private final Number max;
     private final Number min;
@@ -23,7 +27,6 @@ public class Range {
     public Number getMaxNumber() {
         return max;
     }
-
     public Number getMinNumber() {
         return min;
     }
@@ -31,13 +34,12 @@ public class Range {
     public float getMax() {
         return getMaxNumber().floatValue();
     }
-
     public float getMin() {
         return getMinNumber().floatValue();
     }
 
     public RangeEval checkOverlaps(Range actual) {
-        // The target range (i.e., `this`) is shown graphically is the comments below as '|' where `min` is before `max`
+        // The target range (i.e., `this`) is shown graphically below as '|' where `min` is before `max`
         float targetMin = this.getMin();
         float targetMax = this.getMax();
         // The actual rage (i.e., to test against target) is shown graphically as '------' where `min` and `max` are the beginning and end respectively.
@@ -65,7 +67,6 @@ public class Range {
         Range range = (Range) o;
         return Objects.equals(max, range.max) && Objects.equals(min, range.min);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(max, min);
@@ -76,3 +77,5 @@ public class Range {
         return min + "-" + max;
     }
 }
+
+enum RangeEval{WITHIN, OVERLAPS, OVERLAPS_MIN, OVERLAPS_MAX, OUTSIDE, UNKNOWN}

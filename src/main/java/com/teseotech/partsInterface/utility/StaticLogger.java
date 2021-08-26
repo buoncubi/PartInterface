@@ -1,12 +1,18 @@
 package com.teseotech.partsInterface.utility;
 
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import it.emarolab.owloop.core.Axiom;
 
+import java.text.SimpleDateFormat;
+
+/*
+ * A static class to manage logging (and logging levels) in a simple manner.
+ */
 public class StaticLogger{
     // StaticLogger is not constructable.
     private StaticLogger(){}
+    static {
+        activateOWLOOPLogger(false);
+    }
 
     // Constants.
     public static final int VERBOSE = 0;
@@ -19,16 +25,6 @@ public class StaticLogger{
     public static void setLevel(int level){
         actualLevel = level;
     }
-    /*public static void setGlobalLevel(int logging) {  // Attempt to get logs from dependencies.
-        StaticLogger.setLevel(logging);  // SEVERE (i.e., error), WARNING, INFO, FINE (i.e., verbose debug).
-        Logger logger = Logger.getLogger("");
-        switch (logging){
-            case StaticLogger.VERBOSE:  logger.setLevel(Level.FINE);    break;
-            case StaticLogger.INFO:     logger.setLevel(Level.INFO);    break;
-            case StaticLogger.WARNING:  logger.setLevel(Level.WARNING); break;
-            case StaticLogger.ERROR:    logger.setLevel(Level.SEVERE);  break;
-        }
-    }*/
 
     // Logging Methods.
     static public void logVerbose(String content){
@@ -44,6 +40,9 @@ public class StaticLogger{
         log(ERROR, content);
     }
 
+    static public void activateOWLOOPLogger(boolean activate){
+        Axiom.Descriptor.OntologyReference.activateAMORlogging(activate); // Disabling OWLOOP and aMOE logs.
+    }
 
     // Utilities.
     static private void log(int level, String content){

@@ -4,10 +4,17 @@ import com.teseotech.partsInterface.implementation.kernel.Range;
 import com.teseotech.partsInterface.utility.StaticLogger;
 import it.emarolab.amor.owlInterface.OWLReferences;
 
+/*
+ * It manages the OWL Data Property used to represent a Feature with a `Range` Dataype.
+ * In particular, it adds to the ontology two properties with a `Float` Datatype to represent
+ * the `min` and `max` value of a `Range`.
+ */
 public class OWLRangeFeature extends OWLFeature<Range> {
-    public OWLRangeFeature(String key, Range value) {  // This is the constructor to be used if the Feature is inside a Part.
+    // This is the constructor to be used if the Feature should be coupled with a Part.
+    public OWLRangeFeature(String key, Range value) {
         super(key, value);
     }
+    // This is the constructor to be used if the Feature should be used standalone.
     public OWLRangeFeature(String key, Range value, OWLReferences ontology) {
         super(key, value);
         setOWLDescriptor(ontology);

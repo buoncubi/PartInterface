@@ -9,6 +9,10 @@ import it.emarolab.amor.owlInterface.OWLReferences;
 
 import java.util.Set;
 
+/*
+ * It extends `OWLPart` and defined the `evaluateAffinity()` method with a
+ * weighted average among the evaluation of `this` Features with the relative `target` Kernels.
+ */
 public class Part extends OWLPart {
     public Part(String identifier, String partType, Set<? extends OWLFeature<?>> features, OWLReferences ontology) {
         super(identifier, partType, features, ontology);
@@ -18,7 +22,7 @@ public class Part extends OWLPart {
     }
 
     @Override
-    public Affinity queryAffinity(Set<BaseKernel<?,?>> targets) {
+    public Affinity evaluateAffinity(Set<BaseKernel<?,?>> targets) {
         int cnt = 0;
         float sum = 0;
         for (BaseKernel<?,?> k: targets) {

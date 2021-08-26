@@ -2,9 +2,11 @@ package com.teseotech.partsInterface.core;
 
 import java.util.Objects;
 
-// A Pair like structure as <key,value>, e.g., <hasLength,0.2>.
-// The datatype is inferred from the given `value`.
-// `F` should be of type: `Integer`, `Float`, `Double`, `Long`, `Boolean` or `String`.
+/*
+ * It is the base representation of a Part Features, or of a Kernel target value.
+ * It consists on a pair `<String:key, T:value>`, where supported Datatypes `T` are:
+ * `Number` (i.e., `Integer`, `Float`, `Double`, `Long`), `Boolean`, `String, and `Range`.
+ */
 public class BaseFeature<V> {
     private String key = null;
     private V value = null;
@@ -19,8 +21,8 @@ public class BaseFeature<V> {
     }
     public void setValue(V value) {
         this.value = value;
-        // if(!((value instanceof Integer) | (value instanceof Float) | (value instanceof Double)
-        //        | (value instanceof Long) | (value instanceof String)))
+        // if(!((value instanceof Integer) | (value instanceof Float) | (value instanceof Double) | (value instanceof Long)
+        //        | (value instanceof String) | (value instanceof Number) | (value instanceof Range)))
         //    StaticLogger.logWarning("The given feature value (i.e., " + value + ") is of unknown type." );
     }
 
@@ -50,7 +52,7 @@ public class BaseFeature<V> {
     public String toString() {
         return '<' + key + ':' + value + '>';
     }
-    public String toDescription(){
+    public String toDescription(){  // It returns a more complete representation of `this` object than `toString()`.
         return  '<' + key + ":" + value.getClass().getSimpleName() + '>';
     }
 }

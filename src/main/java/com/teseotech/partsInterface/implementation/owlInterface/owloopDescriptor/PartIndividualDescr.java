@@ -12,6 +12,10 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
 import java.util.List;
 
+/*
+ * The OWLOOP descriptor concerning the Feature values of an Part instance `I`,
+ * and its clarification on a Type class, e.g., `MOTOR`.
+ */
 public class PartIndividualDescr extends IndividualGround
         implements IndividualExpression.Type<HierarchicalClassDesc>,  IndividualExpression.DataLink<FeaturePropertyDescr>{
 

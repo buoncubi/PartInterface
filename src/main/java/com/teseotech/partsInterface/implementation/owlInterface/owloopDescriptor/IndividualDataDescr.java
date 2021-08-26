@@ -9,6 +9,9 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
 import java.util.List;
 
+/*
+ * The OWLOOP descriptor concerning the Feature values of an Part instance `I`.
+ */
 public class IndividualDataDescr extends IndividualGround
         implements IndividualExpression.DataLink<FeaturePropertyDescr> {
 

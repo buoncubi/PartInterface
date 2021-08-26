@@ -1,11 +1,9 @@
 package com.teseotech.partsInterface.implementation.kernel;
 
 import com.teseotech.partsInterface.implementation.owlInterface.OWLFeature;
-import com.teseotech.partsInterface.implementation.owlInterface.OWLPartTest;
 import com.teseotech.partsInterface.core.BaseKernel;
 import com.teseotech.partsInterface.implementation.Part;
-import com.teseotech.partsInterface.implementation.owlInterface.OWLRangeFeature;
-import com.teseotech.partsInterface.utility.Configurer;
+import com.teseotech.partsInterface.utility.OntologyBootstrapper;
 import it.emarolab.amor.owlInterface.OWLReferences;
 import org.junit.jupiter.api.Test;
 
@@ -16,42 +14,19 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/*
+ * A simple executable to run a `KernelPoint` evaluation.
+ */
 public class KernelPointTest {
-    public static Set<OWLFeature<?>> getFeatures(OWLReferences ontoRef) {
-        // Define some features (shared to all parts for simplicity).
-        Set<OWLFeature<?>> features = new HashSet<>();
-        features.add(new OWLFeature<>("hasFeature1", 1, ontoRef));
-        features.add(new OWLFeature<>("hasFeature2", 2L, ontoRef));
-        features.add(new OWLFeature<>("hasFeature3", 3f, ontoRef));
-        return features;
-    }
-
-    public static Set<BaseKernel<?,?>> getKernels() {  // Based on `OWLPartTest.getFeatures`
-        // Define some features (shared to all parts for simplicity).
-        Set<BaseKernel<?,?>> kernels = new HashSet<>();
-        kernels.add(new KernelPoint("hasFeature1", 1, getKernelParams()));
-        kernels.add(new KernelPoint("hasFeature2", 2L, getKernelParams()));
-        kernels.add(new KernelPoint("hasFeature3", 3f, getKernelParams()));
-        return kernels;
-    }
-    public static List<KernelPointParam> getKernelParams() {
-        // The `parameters` should be ordered by their `value` and their `degree` should be in [0,1]!
-        List<KernelPointParam> params = new ArrayList<>();
-        params.add(new KernelPointParam(-1,0));
-        params.add(new KernelPointParam(0,1));
-        params.add(new KernelPointParam(1,0));
-        return params;
-    }
-
     @Test
-    public void testAffinity(){
-        // Define some features and target kernels.
-        OWLReferences ontology = Configurer.createOntology(KernelPointTest.class.getSimpleName(), Configurer.ONTO_TEST_FILE_PATH);
+    public void testKernelEvaluation(){  // Test the evaluation of a single affinity component.
+        // Define some features and target kernels based on the functions below.
+        OWLReferences ontology = OntologyBootstrapper.createOntology(KernelPointTest.class.getSimpleName(), OntologyBootstrapper.ONTO_TEST_FILE_PATH);
         Set<OWLFeature<?>> features = getFeatures(ontology);
-        Set<BaseKernel<?, ?>> kernels = getKernels();
+        Set<BaseKernel<?, ?>> target = getKernels();
 
         // For all feature, test the kernel's evaluation.
-        for(BaseKernel<?,?> k: kernels){
+        for(BaseKernel<?,?> k: target){
             OWLFeature<?> found = Part.findKernel(features, k);
             Float affinity = k.evaluate(found);
             if(affinity != null) {
@@ -60,4 +35,29 @@ public class KernelPointTest {
             } else System.out.println("ERROR: cannot evaluate features with the kernel " + k.getClass().getSimpleName() + '.');
         }
     }
+
+    public static Set<OWLFeature<?>> getFeatures(OWLReferences ontology) {
+        Set<OWLFeature<?>> features = new HashSet<>();
+        features.add(new OWLFeature<>("hasFeature1", 1, ontology));
+        features.add(new OWLFeature<>("hasFeature2", 2L, ontology));
+        features.add(new OWLFeature<>("hasFeature3", 3f, ontology));
+        return features;
+    }
+    public static Set<BaseKernel<?,?>> getKernels() {
+        Set<BaseKernel<?,?>> kernels = new HashSet<>();
+        kernels.add(new KernelPoint("hasFeature1", 1, getKernelParams()));
+        kernels.add(new KernelPoint("hasFeature2", 2L, getKernelParams()));
+        kernels.add(new KernelPoint("hasFeature3", 3f, getKernelParams()));
+        return kernels;
+    }
+    public static List<KernelPointParam> getKernelParams() {
+        // The `parameters` defines the fuzzy membership function by point with a `value` and a `degree`.
+        // They must be ordered with a ascendant `value`, and their `degree` should be in [0,1].
+        List<KernelPointParam> params = new ArrayList<>();
+        params.add(new KernelPointParam(-1,0));
+        params.add(new KernelPointParam(0,1));
+        params.add(new KernelPointParam(1,0));
+        return params;
+    }
+
 }

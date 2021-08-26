@@ -16,6 +16,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+/*
+ * THe class to write (and remove) `BasePart` to (from) an OWL ontology.
+ */
 public abstract class OWLPart extends BasePart<OWLFeature<?>> {
     private final String partType;
     static private boolean LOG_FEATURE_ADDING = true;
@@ -33,6 +36,7 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
         this.indDescriptor = createOWLDescriptor(ontology);
         this.setOntologyFeatures(ontology);  // It configure `this.getFeature()`, which should be already set.
     }
+    // Create OWLOOP class to manipulate the ontology.
     private PartIndividualDescr createOWLDescriptor(OWLReferences ontology){
         try {
             PartIndividualDescr indDescr = new PartIndividualDescr(getID(), ontology);
@@ -41,19 +45,20 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
             return indDescr;
         } catch (Exception e){
             StaticLogger.logError("Cannot use ontology '" + ontology + "'!");
-            //e.printStackTrace();
+            e.printStackTrace();
             return null;
         }
     }
 
+    // Provide each Features of this Part with a reference to the ontology.
     private void setOntologyFeatures(OWLReferences ontology){
         for(OWLFeature<?> f: this.getFeatures())
             f.setOWLDescriptor(ontology);
     }
 
-    @Override @Deprecated  // it can be used if a PART needs some general definition in the TBox.
+    @Override @Deprecated  // It can be used if a Part needs some general definition in the TBox.
     public void addPart() {}
-    @Override @Deprecated  // it can be used if a PART needs some general definition in the TBox.
+    @Override @Deprecated  // It can be used if a Part needs some general definition in the TBox.
     public void removePart() {}
 
     @Override
@@ -67,22 +72,24 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
             for (OWLFeature<?> f : this.getFeatures()) {
                 f.addFeature();  // It might make some changes to the TBox.
                 if(f instanceof OWLRangeFeature) {
+                    // Store Features with a `Range` DataType.
                     OWLRangeFeature rf = (OWLRangeFeature) f;
                     this.indDescriptor.addData(rf.getKey(), rf.getValue().getMin());
                     this.indDescriptor.addData(rf.getKey(), rf.getValue().getMax());
-                } else this.indDescriptor.addData(f.getKey(), f.getValue());
+                } else // Store Feature with primitive Datatypes.
+                    this.indDescriptor.addData(f.getKey(), f.getValue());
             }
             this.indDescriptor.writeAxioms();
         }
     }
     @Override
     public void removeInstance() {
+        // `Features` introduced by addInstance() in the TBox are not removed.
         if(this.shouldRemove(LOG_FEATURE_ADDING))
-            removeInstance(getID(), indDescriptor.getOntologyReference()); // Added `Features` are not removed.
+            removeInstance(getID(), indDescriptor.getOntologyReference());
     }
-
-    static public void removeInstance(String instanceName, OWLReferences ontoRef){
-        ontoRef.removeIndividual(instanceName);
+    static public void removeInstance(String instanceName, OWLReferences ontology){
+        ontology.removeIndividual(instanceName);
     }
 
     public String getType() {
@@ -101,6 +108,8 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
         LOG_FEATURE_ADDING = shouldLog;
     }
 
+    // Query to the ontology all the instances `I` of a given Part Type an
+    // parse it into a Set of `Part`, which is returned.
     public static Set<Part> readParts(String partType, OWLReferences ontology){
         // Find all IDs of the parts with a given type (e.g., "MOTOR").
         ClassifiedIndividualDescr clsDescr = new ClassifiedIndividualDescr(partType, ontology);
@@ -109,7 +118,7 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
         for(OWLNamedIndividual p: clsDescr.getIndividuals()){
             partsId.add(ontology.getOWLObjectName(p));
         }
-        // find the Features related to each part.
+        // find the Features related to each IDS.
         Set<Part> parts = new HashSet<>();
         for(String id: partsId){
             IndividualDataDescr p = new IndividualDataDescr(id, ontology);
@@ -128,6 +137,7 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
                 } else StaticLogger.logError("Cannot read part (i.e., " + p.getGroundInstanceName() + ") with " + valueNumber + " equal features.");
 
             }
+            // Create a new Part given the queried Features.
             parts.add(new Part(id, "MOTOR", features, ontology));
         }
         return parts;
