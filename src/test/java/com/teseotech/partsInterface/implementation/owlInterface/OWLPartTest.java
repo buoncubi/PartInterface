@@ -1,6 +1,5 @@
 package com.teseotech.partsInterface.implementation.owlInterface;
 
-import com.teseotech.partsInterface.core.BasePart;
 import com.teseotech.partsInterface.implementation.Part;
 import com.teseotech.partsInterface.implementation.kernel.Range;
 import com.teseotech.partsInterface.utility.Configurer;

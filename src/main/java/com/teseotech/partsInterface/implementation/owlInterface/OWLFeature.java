@@ -5,14 +5,14 @@ import com.teseotech.partsInterface.utility.StaticLogger;
 import com.teseotech.partsInterface.core.WritableFeature;
 import it.emarolab.amor.owlInterface.OWLReferences;
 
-public class OWLFeature<F> extends WritableFeature<F> {
+public class OWLFeature<V> extends WritableFeature<V> {
     private FeaturePropertyDescr propDescriptor = null;
 
     // This is the constructor to be used if the Feature is inside a Part. It requires to invoke `setOWLDescriptor`.
-    public OWLFeature(String key, F value) {
+    public OWLFeature(String key, V value) {
         super(key, value);
     }
-    public OWLFeature(String key, F value, OWLReferences ontology) {
+    public OWLFeature(String key, V value, OWLReferences ontology) {
         super(key, value);
         setOWLDescriptor(ontology);
     }

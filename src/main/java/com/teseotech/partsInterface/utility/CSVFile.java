@@ -124,4 +124,7 @@ public class CSVFile {
     public static CSVFile readCsv(String filePath, String columnsDelimiter, Class<?>[] types, String[] header){
         return new CSVFile(filePath, columnsDelimiter, types, header);
     }
+    public static CSVFile readCsv(String filePath, Class<?>[] types, String[] header){
+        return new CSVFile(filePath, ",", types, header);
+    }
 }

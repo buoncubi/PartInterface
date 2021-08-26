@@ -28,12 +28,12 @@ public class ExampleInterface {
 
         /*      Read CSV file that contains headers (i.e., the features key).
                 Hypothesis: the size of `type`, `header` and each CSV lines is always equal.      */
-        Class<?>[] types = new Class[]{Long.class, String.class, String.class, Range.class, Float.class, Boolean.class, Number.class};
+        Class<?>[] datatypes = new Class[]{Long.class, String.class, String.class, Range.class, Float.class, Boolean.class, Number.class};
         String[] header = new String[]{"id", "TYPE", "code", "freq", "weight", "available", "pole"};
-        CSVFile csv = CSVFile.readCsv(FILE_PATH + "dataExampleNoHeader.csv", ",", types, header);
+        CSVFile csv = CSVFile.readCsv(FILE_PATH + "dataExampleNoHeader.csv", ",", datatypes, header);
         List<Set<OWLFeature<?>>> data = csv.getData();
         // Eventually, the headers can be read from the CSV file (to test uncomment below and comment 2 lines above).
-        //CSVFile csv = CSVFile.readCsv(FILE_PATH + "dataExampleHeader.csv", types);
+        //CSVFile csv = CSVFile.readCsv(FILE_PATH + "dataExampleHeader.csv", datatypes);
         //List<Set<OWLFeature<?>>> data = csv.getData();
 
 
@@ -54,7 +54,7 @@ public class ExampleInterface {
     }
     private static void queryAffinity(OWLReferences ontology){
         /*      Load parts from an ontology.      */
-        Set<Part> parts = OWLPart.readParts("MOTOR", ontology);  // todo read "MOTOR" from the ontology.
+        Set<Part> parts = OWLPart.readParts("MOTOR", ontology);
 
         /*      Create kernels for evaluation.      */
         Set<BaseKernel<?,?>> kernels = new HashSet<>();
