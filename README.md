@@ -308,6 +308,14 @@ CSVFile csv = new CSVFile("path/to/file.csv", datatypes, header);
 // Eventually let the `header` be specified in the first line of the CSV file.
 //CSVFile csv = new CSVFile("path/to/fileWithHeader.csv", datatypes);
 List<Set<OWLFeature<?>>> data = csv.getData();
+
+// Add Parts to the ontology with the Features given from the CSV file.
+List<String> ids = csv.pullFeature("id");
+List<String> partTypes = csv.pullFeature("TYPE");
+for(int i = 0; i < data.size(); i++){
+    OWLPart part = new Part(ids.get(i), partTypes.get(i), data.get(i), ontology); 
+    part.addInstance();
+}
 ```
 
 Alternatively, it is also possible to encode the Features of a single Part through API as 
