@@ -9,10 +9,10 @@ The objective of such a comparison is to rank Parts base on the *affinity* of it
 ## Contents
 1. *Dependencies & Installation* → Brief procedure.
 2. *Ontology* → Brief description of the knowledge representation and its main concepts:  
-   2.1 *Part Type*,  
-   2.2 *Part Individual & Feature*,  
-   2.3 *Part Feature Datatype*,  
-   2.4 *Ontology Part Concepts*.  
+   2.1. *Part Type*,  
+   2.2. *Part Individual & Feature*,  
+   2.3. *Part Feature Datatype*,  
+   2.4. *Ontology Part Concepts*.  
 3. *Software Architecture* → Description of the main components of the architecture:  
    3.1. `BaseFeature<V>`,  
    3.2. `WritableFeature<V>`,  
