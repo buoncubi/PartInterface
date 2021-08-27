@@ -8,7 +8,8 @@ import java.util.Objects;
  * The class implementing a Feature Datatype representing a `Range`, i.e., an
  * interval with `min` and `max` limit (treated as `Number`).
  * It also define the mutual relationships between two `Ranges` in the `checkOverlaps()`
- * function, which returns an item of the `RangeEval` enumerator.
+ * function, which returns an item of the `RangeEval` enumerator, i.e.,
+ * `WITHIN`, `OVERLAPS`, `OVERLAPS_MIN`, `OVERLAPS_MAX`, `OUTSIDE`, `UNKNOWN`.
  */
 public class Range {
     private final Number max;
@@ -22,6 +23,10 @@ public class Range {
             this.min = n2;
             this.max = n1;
         }
+    }
+    public Range(Number n) {
+        this.min = n;
+        this.max = n;
     }
 
     public Number getMaxNumber() {
@@ -42,7 +47,7 @@ public class Range {
         // The target range (i.e., `this`) is shown graphically below as '|' where `min` is before `max`
         float targetMin = this.getMin();
         float targetMax = this.getMax();
-        // The actual rage (i.e., to test against target) is shown graphically as '------' where `min` and `max` are the beginning and end respectively.
+        // The `actual` rage to test against target is shown graphically as '------' where `min` and `max` are the beginning and end respectively.
         float actualMin = actual.getMin();
         float actualMax = actual.getMax();
 

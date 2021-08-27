@@ -6,8 +6,8 @@ import com.teseotech.partsInterface.utility.StaticLogger;
 
 /*
  * It extends `BaseKernel` to implement a Kernel comparing two Features with a `Range` Datatype,
- * which is represented with a `min` and a `max` value.
- * Remarkably, it can process also Features with a `Number` Datatype as a `Range` where `min=max`.
+ * which are represented with a `min` and a `max` values.
+ * Remarkably, it can process also Features with a `Number` Datatype as a `Range` where `min = max`.
  * The comparison is done in order to return a value associate to the amount of the `actual` range
  * within the bounds of a target range (i.e., `this`).
  * More in particular:
@@ -30,6 +30,12 @@ public class KernelRange  extends BaseKernel<Range, Void> {
     public KernelRange(String targetKey, Range targetValue, float weight) {
         super(targetKey, targetValue, null, weight);
     }
+    public KernelRange(String targetKey, Number targetValue) {
+        super(targetKey, new Range(targetValue), null);
+    }
+    public KernelRange(String targetKey, Number targetValue, float weight) {
+        super(targetKey, new Range(targetValue), null, weight);
+    }
 
     @Override
     public <X extends BaseFeature<?>> Float evaluateChecked(X actual) {
@@ -51,7 +57,7 @@ public class KernelRange  extends BaseKernel<Range, Void> {
         }
         if(actual.getValue() instanceof Number) {  // Compare a range and a point.
             Number n = (Number) actual.getValue();
-            Range actualValue = new Range(n,n);
+            Range actualValue = new Range(n);
             if (targetValue.checkOverlaps(actualValue) == RangeEval.WITHIN)
                 return 1.0f;
             else return 0.0f;

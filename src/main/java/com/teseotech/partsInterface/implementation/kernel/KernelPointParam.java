@@ -3,8 +3,8 @@ package com.teseotech.partsInterface.implementation.kernel;
 import java.util.Objects;
 
 /*
- * The parameter of a `KernelPoint`. It is a `<float:value, float:degree>` pair used to represent
- * discontinuity point in a fuzzy membership function.
+ * The parameter of a `KernelPoint`.
+ * It is a `<float:value, float:degree>` pair used to represent discontinuity points in a fuzzy membership function.
  */
 public class KernelPointParam {
     private final float value;

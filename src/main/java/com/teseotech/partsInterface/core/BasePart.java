@@ -8,12 +8,12 @@ import java.util.Set;
 
 /*
  * The interface to represent a Part as made by some `F extends BaseFeature<?>`.
- * It defines abstract function to add (and remove) to (from) the ontology Part instance `I` (in the ABox),
- * as well as property `r` (in the Tbox).
- * This class implements the `AddRemoveChecker`, which simplify the operation involved for manipulating the ontology.
- * In addition, it define the function to evaluate the affinity of `this` Part based on some target Kernels.
+ * It defines abstract functions to
+ *  - add/remove a Part instance `I` (in the ABox) and property `r` (in the Tbox)
+ *    to/from a data structure, e.g, an ontology;
+ *  - to evaluate the affinity of `this` Part based on some target Kernels.
  */
-public abstract class BasePart<F extends BaseFeature<?>> implements AddRemoveChecker {
+public abstract class BasePart<F extends BaseFeature<?>> implements AddRemoveChecker { // `AddRemoveChecker` simplifies ontology manipulation.
     private final Set<? extends F> features;
     private final String identifier;
 
@@ -24,11 +24,11 @@ public abstract class BasePart<F extends BaseFeature<?>> implements AddRemoveChe
         this.features = features;
     }
 
-    // Intended to change the TBox, i.e, add/remove generic logic definition of a Part to/from the ontology.
+    // Intended add/remove generic definition of a Part, e.g., change the TBox of an ontology.
     public abstract void addPart();
     public abstract void removePart();
 
-    // Intended to change the ABox, i.e., add/remove Part Instances `I` from/to the ontology.
+    // Intended add/remove definition of Part instances with specific Features, e.g., change the ABox of an ontology.
     public abstract void addInstance();
     public abstract void removeInstance();
 
@@ -43,10 +43,11 @@ public abstract class BasePart<F extends BaseFeature<?>> implements AddRemoveChe
     }
 
     @Override
-    public String getCheckerLog() {
+    public String getCheckerLog() {  // defined by `AddRemoveChecker`.
         // It defines a string used to log information while checking if a Part should be added/removed from/to the ontology.
         return "part " + this;
     }
+    // abstract public boolean exists() added by `AddRemoveChecker`
 
     @Override
     public String toString() {

@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.*;
 
 /*
- * A class to parse a CSV file into a `List<Set<OWLFeature<?>>>` retrivable with `getData()'.
+ * A class to parse a CSV file into a `List<Set<OWLFeature<?>>>`, which is retrievable with `getData()'.
  * Check the README for more information of the structure that the CSV should have.
  * It implements a `pullFeature()` function to extract Features with a given `key` from `getData()`.
  */
@@ -100,7 +100,7 @@ public class CSVFile {
     private Range parseRange(String rangeStr){
         String[] split = rangeStr.split("-", 2);
         if(split.length == 1)
-            return new Range(Float.valueOf(split[0]), Float.valueOf(split[0]));
+            return new Range(Float.valueOf(split[0]));
         return new Range(Float.valueOf(split[0]), Float.valueOf(split[1]));
     }
 

@@ -5,6 +5,7 @@ import it.emarolab.owloop.core.Axiom;
 
 /*
  * A static class for creating a new ontology or load it from file.
+ * It disable OWLOOP and AMOR logging.
  */
 public class OntologyBootstrapper {
     private OntologyBootstrapper(){}  // This class is not constructable, i.e., only static functions.

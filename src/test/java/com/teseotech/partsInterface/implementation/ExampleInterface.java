@@ -17,8 +17,8 @@ import java.util.*;
 
 /*
  * A simple executable implementing an interface to this framework.
- * The interface allow adding part to an ontology and query their affinities to target Kernel.
- * It addresses both the case when the ontology is store on a fil or kept in the memory for all the process.
+ * The interface allow adding parts to an ontology and query their affinities to target Kernels.
+ * It addresses both the case when the ontology is store on a file or kept in the memory only.
  * To test the interface, this class uses data stored in a CSV file.
  */
 public class ExampleInterface {

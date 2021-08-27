@@ -5,7 +5,7 @@ import java.util.Objects;
 /*
  * This is the main output of the software architecture, which consists on a pair `<String:I, float:d>`,
  * where `I` is a Part identifier, and `d` is its degree of affinity in [0,1].
- * This class is instantiated by `BasePart.evaluateAffinity(Set<BaseKernel>`.
+ * This class is instantiated by `BasePart.evaluateAffinity(Set<BaseKernel>)`.
  */
 public class Affinity {
     private final float degree;

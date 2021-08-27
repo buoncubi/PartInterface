@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- * It extends `BaseKernel` to implement a Kernel comparing two Features with a `Number` Datatype.
- * The comparison is done with a fuzzy membership function defined through a set of points, i.e.,
- * the parameter `List<KernelPointParam>>`, which must be ordered with an ascending `value`.
- * The fuzzy function is then represented with a linear interpolation between point, and the
- * degree given an `actual` Feature value is computed.
- * This kernel requires at least two point given as parameters.
+ * It extends `BaseKernel` to implement a Kernel comparing two Features with
+ * a `Number` Datatype.
+ * The comparison is done with a fuzzy membership function defined through a
+ * set of discontinuities points, i.e., the parameter `List<KernelPointParam>>`.
+ * The points should be be ordered with an ascending `value`, and the fuzzy
+ * function is then represented with a linear interpolation between points.
+ * Note that This kernel requires at least two point given as parameters.
  */
 public class KernelPoint extends BaseKernel<Number, List<KernelPointParam>> {
     public KernelPoint(String targetKey, Number targetValue, List<KernelPointParam> parameter) {

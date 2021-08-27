@@ -6,11 +6,17 @@ import com.teseotech.partsInterface.utility.StaticLogger;
 
 /*
  * It extends `BaseKernel` to implement a Kernel comparing two Features with a `Boolean` Datatype.
- * It does not requires any parameters, and evaluates the comparison as 1 if the two Features
+ * It does not requires any parameters, and it evaluates the comparison as 1 if the two Features
  * have an equal value; 0 otherwise.
- * Remarkably, it can also evaluate `Number' number by considering them `true` if greater than zero.
+ * Remarkably, it can also evaluate `Number' Datatype, which are considering to be `true` if greater than zero.
  */
 public class KernelBoolean extends BaseKernel<Boolean, Void> {
+    public KernelBoolean(String targetKey, Number targetValue) {
+        super(targetKey, num2bool(targetValue), null);
+    }
+    public KernelBoolean(String targetKey, Number targetValue, float weight) {
+        super(targetKey, num2bool(targetValue), null, weight);
+    }
     public KernelBoolean(String targetKey, boolean targetValue) {
         super(targetKey, targetValue, null);
     }
@@ -32,10 +38,13 @@ public class KernelBoolean extends BaseKernel<Boolean, Void> {
             return (Boolean) r;
         if(r instanceof Number) {
             Number n = (Number) r;
-            return n.floatValue() > 0;
+            return num2bool(n);
         }
         StaticLogger.logError("Cannot cast in `Range` object of type: " + r.getClass());
         return null;
+    }
+    private static boolean num2bool(Number n){
+        return n.floatValue() > 0;
     }
 
     @Override

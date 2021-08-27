@@ -99,10 +99,10 @@
     
 
 
-    <!-- http://www.partAffinity.org/OWLPartTest#1630001368815-0 -->
+    <!-- http://www.partAffinity.org/OWLPartTest#1630053323404-0 -->
 
 
-    <owl:NamedIndividual rdf:about="http://www.partAffinity.org/OWLPartTest#1630001368815-0">
+    <owl:NamedIndividual rdf:about="http://www.partAffinity.org/OWLPartTest#1630053323404-0">
         <rdf:type rdf:resource="http://www.partAffinity.org/OWLPartTest#MOTOR"/>
         <hasFeature1 rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.0</hasFeature1>
         <hasFeature1 rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.0</hasFeature1>

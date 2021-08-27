@@ -10,7 +10,7 @@ import it.emarolab.amor.owlInterface.OWLReferences;
 import java.util.Set;
 
 /*
- * It extends `OWLPart` and defined the `evaluateAffinity()` method with a
+ * It extends `OWLPart` and implements the `evaluateAffinity()` method as a
  * weighted average among the evaluation of `this` Features with the relative `target` Kernels.
  */
 public class Part extends OWLPart {

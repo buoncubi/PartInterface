@@ -1,7 +1,7 @@
 package com.teseotech.partsInterface.utility;
 
 /*
- * An interface to add or remove data from a structure based on its existence.
+ * An interface to add or remove instances from a data structure based on its existence.
  */
 public interface AddRemoveChecker {
 

@@ -12,7 +12,7 @@ import java.util.*;
 
 /*
  * A simple executable to test the add (and remove) of `OWLPart` from (to) the ontology.
- * It also test the automatic generation of Part identifiers.
+ * It also tests the automatic generation of Part identifiers.
  */
 public class OWLPartTest {
     @Test

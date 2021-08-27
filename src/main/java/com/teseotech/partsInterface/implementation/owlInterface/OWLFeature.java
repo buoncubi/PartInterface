@@ -6,12 +6,12 @@ import com.teseotech.partsInterface.core.WritableFeature;
 import it.emarolab.amor.owlInterface.OWLReferences;
 
 /*
- * The implementation of a `WritableFeature` based on OWLOOP.
+ * The implementation of a `WritableFeature` based on OWL ontology, i.e., through the OWLOOP API.
  */
 public class OWLFeature<V> extends WritableFeature<V> {
     private FeaturePropertyDescr propDescriptor = null;
 
-    // This is the constructor to be used if the Feature should be coupled with a Part.
+    // This is the constructor to be used if the Feature is coupled with a Part.
     // It requires to invoke `setOWLDescriptor()`.
     public OWLFeature(String key, V value) {
         super(key, value);
@@ -21,7 +21,8 @@ public class OWLFeature<V> extends WritableFeature<V> {
         super(key, value);
         setOWLDescriptor(ontology);
     }
-    // Set the OWLOOP descriptor to interface with an ontology.
+
+    // Create an OWLOOP descriptor to interface with an ontology.
     public void setOWLDescriptor(OWLReferences ontology){
         try {
             this.propDescriptor = new FeaturePropertyDescr(this.getKey(), ontology);

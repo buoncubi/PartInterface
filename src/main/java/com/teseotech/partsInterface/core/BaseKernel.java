@@ -3,9 +3,10 @@ package com.teseotech.partsInterface.core;
 import com.teseotech.partsInterface.utility.StaticLogger;
 
 /*
- * It is the class that represents a target `BaseFeature<V>`, and it defines the `evalute()`
- * function to compare the target with another `Feature<?>` instance, i.e., the actual value.
- * it defines a possible parameter of the generic type `P`, which can be used during evaluation.
+ * It is the class that:
+ *  - represents a target `BaseFeature<V>`,
+ *  - defines the `evalute()` function to compare the target with another `Feature<?>` instance.
+ * It defines a possible parameter of the generic type `P`, which can be used during evaluation.
  * Also, it encodes a `weight` that will be used by `Part.evaluateAffinity()`, which by default is set to 1.
  */
 public abstract class BaseKernel<V,P> extends BaseFeature<V> {

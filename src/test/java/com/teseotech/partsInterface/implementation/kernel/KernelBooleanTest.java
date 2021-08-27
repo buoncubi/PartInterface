@@ -35,7 +35,7 @@ class KernelBooleanTest {
         Set<BaseKernel<?,?>> kernels = new HashSet<>();
         kernels.add(new KernelBoolean("hasFeature1", true, 5));
         kernels.add(new KernelBoolean("hasFeature2", false, 1));
-        kernels.add(new KernelBoolean("hasFeature3", true, 5));
+        kernels.add(new KernelBoolean("hasFeature3", 1, 5));
         return kernels;
     }
     public static Set<OWLFeature<?>> getFeatures(OWLReferences ontology) {

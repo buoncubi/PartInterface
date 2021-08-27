@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 /*
- * THe class to write (and remove) `BasePart` to (from) an OWL ontology.
+ * THe class to write (and remove) `BasePart` to (from) an OWL ontology, i.e., through OWLOOP API.
  */
 public abstract class OWLPart extends BasePart<OWLFeature<?>> {
     private final String partType;
@@ -36,7 +36,7 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
         this.indDescriptor = createOWLDescriptor(ontology);
         this.setOntologyFeatures(ontology);  // It configure `this.getFeature()`, which should be already set.
     }
-    // Create OWLOOP class to manipulate the ontology.
+    // Create an OWLOOP descriptor to manipulate the ontology.
     private PartIndividualDescr createOWLDescriptor(OWLReferences ontology){
         try {
             PartIndividualDescr indDescr = new PartIndividualDescr(getID(), ontology);
@@ -56,9 +56,9 @@ public abstract class OWLPart extends BasePart<OWLFeature<?>> {
             f.setOWLDescriptor(ontology);
     }
 
-    @Override @Deprecated  // It can be used if a Part needs some general definition in the TBox.
+    @Override @Deprecated  // Eventually, it can be used if a Part needs some general definition in the TBox.
     public void addPart() {}
-    @Override @Deprecated  // It can be used if a Part needs some general definition in the TBox.
+    @Override @Deprecated  // Eventually, it can be used if a Part needs some general definition in the TBox.
     public void removePart() {}
 
     @Override

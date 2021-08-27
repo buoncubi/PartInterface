@@ -4,9 +4,10 @@ import com.teseotech.partsInterface.core.BaseFeature;
 import com.teseotech.partsInterface.core.BaseKernel;
 
 /*
- * It extends `BaseKernel` to implement a Kernel comparing two Features with a `String` Datatype.
- * It does not requires any parameters, and evaluates the comparison as 1 if the two Features
- * have an equal value; 0 otherwise.
+ * It extends `BaseKernel` to implement a Kernel comparing two
+ * Features with a `String` Datatype.
+ * It does not requires any parameters, and evaluates the comparison
+ * as 1 if the two Features have an equal value; 0 otherwise.
  */
 public class KernelString extends BaseKernel<String, Void> {
     public KernelString(String targetKey, String targetValue) {

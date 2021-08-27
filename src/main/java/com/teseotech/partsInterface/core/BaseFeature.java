@@ -4,7 +4,7 @@ import java.util.Objects;
 
 /*
  * It is the base representation of a Part Features, or of a Kernel target value.
- * It consists on a pair `<String:key, T:value>`, where supported Datatypes `T` are:
+ * It consists on a pair `<String:key, T:value>`, where currently supported Datatypes `T` are:
  * `Number` (i.e., `Integer`, `Float`, `Double`, `Long`), `Boolean`, `String, and `Range`.
  */
 public class BaseFeature<V> {
