@@ -9,10 +9,10 @@ The objective of such a comparison is to rank Parts base on the *affinity* of it
 ## Contents
 1. *Dependencies & Installation* → Brief procedure.
 2. *Ontology* → Brief description of the knowledge representation and its main concepts:  
-   2.1 *Part Type*,  
-   2.2 *Part Individual & Feature*,  
-   2.3 *Part Feature Datatype*,  
-   2.4 *Ontology Part Concepts*.  
+   2.1. *Part Type*,  
+   2.2. *Part Individual & Feature*,  
+   2.3. *Part Feature Datatype*,  
+   2.4. *Ontology Part Concepts*.  
 3. *Software Architecture* → Description of the main components of the architecture:  
    3.1. `BaseFeature<V>`,  
    3.2. `WritableFeature<V>`,  
@@ -308,6 +308,14 @@ CSVFile csv = new CSVFile("path/to/file.csv", datatypes, header);
 // Eventually let the `header` be specified in the first line of the CSV file.
 //CSVFile csv = new CSVFile("path/to/fileWithHeader.csv", datatypes);
 List<Set<OWLFeature<?>>> data = csv.getData();
+
+// Add Parts to the ontology with the features given from the CSV file.
+List<String> ids = csv.pullFeature("id");
+List<String> partTypes = csv.pullFeature("TYPE");
+for(int i = 0; i < data.size(); i++){
+    OWLPart part = new Part(ids.get(i), partTypes.get(i), data.get(i), ontology); 
+    part.addInstance();
+}
 ```
 
 Alternatively, it is also possible to encode the Features of a single Part through API as 
