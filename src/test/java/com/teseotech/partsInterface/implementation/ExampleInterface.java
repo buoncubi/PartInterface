@@ -123,12 +123,12 @@ public class ExampleInterface {
     public static List<KernelPointParam> getKernelPointParams() {
         // The `parameters` should be ordered by their `value` and their `degree` should be in [0,1]!
         List<KernelPointParam> params = new ArrayList<>();
-        params.add(new KernelPointParam( -1f,0f));
+        params.add(new KernelPointParam(-1f,0f));
         params.add(new KernelPointParam(-.8f,0.5f));
         params.add(new KernelPointParam(-.3f,1f));
-        params.add(new KernelPointParam( .2f,1f));
+        params.add(new KernelPointParam(.2f,1f));
         params.add(new KernelPointParam(-.8f,0.4f));
-        params.add(new KernelPointParam(  1f,0f));
+        params.add(new KernelPointParam(1f,0f));
         return params;
     }
 }

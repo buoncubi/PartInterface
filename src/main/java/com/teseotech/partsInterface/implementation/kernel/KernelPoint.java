@@ -71,4 +71,10 @@ public class KernelPoint extends BaseKernel<Number, List<KernelPointParam>> {
         //   x2 = p2.getValue(),  y2 = p2.getDegree().
         return p1.getDegree() + (((x - p1.getValue())/(p2.getValue() - p1.getValue())) * (p2.getDegree() - p1.getDegree()));
     }
+
+    @Override
+    protected <X extends BaseFeature<?>> boolean checkType(X actual) {
+        // Returns `true` if both are Numbers. If not overwritten it returns `true` of both are of the same `Class`.
+        return Number.class.isAssignableFrom(actual.getType()) & Number.class.isAssignableFrom(this.getType());
+    }
 }

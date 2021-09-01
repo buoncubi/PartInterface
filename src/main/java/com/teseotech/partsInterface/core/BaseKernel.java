@@ -37,7 +37,7 @@ public abstract class BaseKernel<V,P> extends BaseFeature<V> {
                         StaticLogger.logWarning("Kernel evaluation of " + this + "is out of [0,1] bounds!");
                     StaticLogger.logVerbose("Kernel " + this + " evaluating " + actual + " with target " + actual + "(=" + evaluation +").");
                 } else StaticLogger.logError("I cannot evaluate different `keys`, i.e., " + this + " != " + actual + '.');
-            } else StaticLogger.logError("Cannot evaluate features with ket `" + getKey() + "` since have inconsistent types (i..e, "
+            } else StaticLogger.logError("Cannot evaluate features with key `" + getKey() + "` since have inconsistent types (i..e, "
                     + actual.getType().getSimpleName() + " and " + getType().getSimpleName() + ").");
         } else StaticLogger.logError("I cannot evaluate kernel since actual value is not found (i.e., `null`).");
         return evaluation;
@@ -67,3 +67,4 @@ public abstract class BaseKernel<V,P> extends BaseFeature<V> {
         return this.getClass().getSimpleName() + "(w:" + weight + ", <" + getKey() + ':' + getValue() + '>' + paramLog + ')';
     }
 }
+
